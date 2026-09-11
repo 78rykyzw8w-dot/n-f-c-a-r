@@ -2,13 +2,16 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<title>NFCAR — Dijital Araç Kartı</title>
+<title>NFCAR — Dijital Araç Kimliği</title>
 
 <meta name="theme-color" content="#050505">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -20,10 +23,23 @@ html{
 }
 
 body{
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Segoe UI",
+        sans-serif;
+
     background:#050505;
-    color:#fff;
+    color:#f7f7f7;
     overflow-x:hidden;
+}
+
+button,
+input,
+textarea{
+    font:inherit;
 }
 
 button,
@@ -32,525 +48,1381 @@ a{
 }
 
 a{
-    color:inherit;
     text-decoration:none;
+    color:inherit;
 }
 
-/* BACKGROUND */
+button{
+    cursor:pointer;
+}
 
-body::before{
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+body:before{
     content:"";
     position:fixed;
     inset:0;
     pointer-events:none;
+    z-index:-5;
+
     background:
-        radial-gradient(circle at 20% 10%,rgba(255,255,255,.08),transparent 28%),
-        radial-gradient(circle at 90% 30%,rgba(255,255,255,.05),transparent 25%);
-    z-index:-1;
+        radial-gradient(
+            circle at 15% 10%,
+            rgba(255,255,255,.09),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 85% 25%,
+            rgba(255,255,255,.055),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 50% 80%,
+            rgba(255,255,255,.035),
+            transparent 35%
+        );
 }
 
-/* HEADER */
+body:after{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-4;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        );
+
+    background-size:60px 60px;
+    mask-image:linear-gradient(
+        to bottom,
+        black,
+        transparent 75%
+    );
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
 
 .header{
-    position:sticky;
+    position:fixed;
     top:0;
-    z-index:50;
-    height:70px;
+    left:0;
+    right:0;
+
+    height:74px;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     padding:0 20px;
-    background:rgba(5,5,5,.78);
-    backdrop-filter:blur(18px);
+
+    z-index:100;
+
+    background:rgba(5,5,5,.72);
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+
     border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .logo{
     font-size:25px;
-    font-weight:900;
-    letter-spacing:-1.5px;
+    font-weight:950;
+    letter-spacing:-1.8px;
 }
 
 .logo span{
+    color:#777;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.live-pill{
+    display:flex;
+    align-items:center;
+    gap:7px;
+
+    padding:8px 11px;
+
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:100px;
+
+    background:rgba(255,255,255,.04);
+
     color:#aaa;
+
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.7px;
 }
 
-.menu-btn{
-    width:42px;
-    height:42px;
+.live-dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#fff;
+
+    box-shadow:
+        0 0 0 4px rgba(255,255,255,.06),
+        0 0 14px rgba(255,255,255,.7);
+}
+
+.menu-button{
+    width:44px;
+    height:44px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:15px;
+
     border:1px solid rgba(255,255,255,.14);
-    border-radius:14px;
-    background:#111;
-    color:#fff;
-    font-size:21px;
+
+    background:#101010;
+    color:white;
+
+    font-size:20px;
 }
 
-/* HERO */
+
+/* =========================================================
+   HERO
+========================================================= */
 
 .hero{
-    min-height:calc(100vh - 70px);
-    padding:70px 22px 45px;
+    min-height:100svh;
+
+    padding:
+        145px
+        20px
+        70px;
+
     display:flex;
     flex-direction:column;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
+
     text-align:center;
 }
 
-.badge{
-    display:inline-flex;
+.nfc-badge{
+    display:flex;
     align-items:center;
-    gap:8px;
-    padding:9px 14px;
+    gap:9px;
+
+    padding:10px 15px;
+
+    border-radius:100px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.08),
+            rgba(255,255,255,.025)
+        );
+
     border:1px solid rgba(255,255,255,.13);
-    background:rgba(255,255,255,.045);
-    border-radius:999px;
-    color:#cfcfcf;
+
+    color:#aaa;
+
     font-size:12px;
-    margin-bottom:22px;
+    font-weight:600;
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.05),
+        0 15px 40px rgba(0,0,0,.3);
 }
 
-.badge-dot{
-    width:7px;
-    height:7px;
-    background:#fff;
+.nfc-icon{
+    width:8px;
+    height:8px;
+
     border-radius:50%;
-    box-shadow:0 0 12px #fff;
+
+    background:#fff;
+
+    box-shadow:
+        0 0 12px rgba(255,255,255,.9);
 }
 
 .hero h1{
-    font-size:clamp(48px,15vw,86px);
-    line-height:.9;
-    letter-spacing:-5px;
+    margin-top:25px;
+
+    max-width:900px;
+
+    font-size:
+        clamp(
+            52px,
+            15vw,
+            105px
+        );
+
+    line-height:.86;
+
+    letter-spacing:-6px;
+
     font-weight:950;
-    max-width:850px;
 }
 
 .hero h1 span{
-    color:#8f8f8f;
+    display:block;
+    color:#777;
 }
 
-.hero p{
-    margin-top:24px;
-    max-width:520px;
-    color:#a7a7a7;
-    line-height:1.65;
+.hero-description{
+    max-width:570px;
+
+    margin-top:28px;
+
+    color:#999;
+
     font-size:16px;
+    line-height:1.7;
 }
 
 .hero-buttons{
+    width:100%;
+    max-width:430px;
+
     display:flex;
     flex-direction:column;
-    width:100%;
-    max-width:390px;
     gap:11px;
-    margin-top:30px;
+
+    margin-top:32px;
 }
 
-.btn{
-    min-height:55px;
-    border-radius:17px;
+.primary-button,
+.secondary-button{
+    min-height:58px;
+
+    border-radius:18px;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     font-size:15px;
-    font-weight:750;
-    border:1px solid rgba(255,255,255,.12);
-    transition:.2s;
+    font-weight:800;
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
 }
 
-.btn:active{
+.primary-button{
+    background:#fff;
+    color:#050505;
+
+    box-shadow:
+        0 18px 45px rgba(255,255,255,.07);
+}
+
+.secondary-button{
+    background:#111;
+    color:#fff;
+
+    border:1px solid rgba(255,255,255,.12);
+}
+
+.primary-button:active,
+.secondary-button:active{
     transform:scale(.97);
 }
 
-.btn-primary{
-    background:#fff;
-    color:#050505;
+
+/* =========================================================
+   PRODUCT PREVIEW
+========================================================= */
+
+.preview-section{
+    padding:90px 18px;
 }
 
-.btn-secondary{
-    background:#111;
-    color:#fff;
-}
-
-/* DEMO CARD */
-
-.section{
-    padding:80px 20px;
-}
-
-.container{
-    width:100%;
-    max-width:1000px;
-    margin:auto;
-}
-
-.section-title{
+.section-label{
     text-align:center;
-    margin-bottom:35px;
-}
 
-.section-title small{
     color:#777;
-    font-size:12px;
-    text-transform:uppercase;
-    letter-spacing:2px;
+
+    font-size:11px;
+    font-weight:700;
+
+    letter-spacing:3px;
 }
 
-.section-title h2{
-    margin-top:10px;
-    font-size:34px;
-    letter-spacing:-1.5px;
+.section-heading{
+    margin-top:12px;
+
+    text-align:center;
+
+    font-size:38px;
+    line-height:1;
+
+    letter-spacing:-2px;
 }
 
-.demo-wrap{
-    max-width:430px;
-    margin:auto;
+
+/* =========================================================
+   DIGITAL PROFILE
+========================================================= */
+
+.profile-wrap{
+    width:100%;
+    max-width:460px;
+
+    margin:42px auto 0;
 }
 
-.digital-card{
+.profile-card{
     position:relative;
+
     overflow:hidden;
-    border-radius:30px;
+
+    border-radius:32px;
+
     background:
-        linear-gradient(145deg,#191919,#080808 60%);
+        linear-gradient(
+            145deg,
+            #171717,
+            #090909 65%
+        );
+
     border:1px solid rgba(255,255,255,.12);
+
     box-shadow:
-        0 30px 90px rgba(0,0,0,.65),
+        0 40px 100px rgba(0,0,0,.65),
         inset 0 1px rgba(255,255,255,.08);
 }
 
-.card-top{
-    padding:22px 22px 10px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
+.profile-glow{
+    position:absolute;
 
-.card-brand{
-    font-size:20px;
-    font-weight:900;
-}
+    width:300px;
+    height:300px;
 
-.card-status{
-    font-size:11px;
-    color:#aaa;
-    padding:7px 10px;
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:99px;
-}
+    right:-170px;
+    top:-150px;
 
-.vehicle-image{
-    height:205px;
-    margin:10px 15px;
-    border-radius:23px;
+    border-radius:50%;
+
     background:
-        radial-gradient(ellipse at center,rgba(255,255,255,.18),transparent 50%),
-        linear-gradient(145deg,#252525,#090909);
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.11),
+            transparent 68%
+        );
+}
+
+.profile-header{
+    position:relative;
+
+    padding:24px 22px 15px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.profile-brand{
+    font-size:21px;
+    font-weight:950;
+    letter-spacing:-1px;
+}
+
+.active-status{
+    display:flex;
+    align-items:center;
+    gap:7px;
+
+    padding:8px 11px;
+
+    border-radius:100px;
+
+    background:#101010;
+
+    border:1px solid rgba(255,255,255,.11);
+
+    color:#aaa;
+
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.8px;
+}
+
+.active-status span{
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    box-shadow:0 0 10px #fff;
+}
+
+
+/* VEHICLE VISUAL */
+
+.vehicle-visual{
+    position:relative;
+
+    height:245px;
+
+    margin:8px 14px;
+
+    border-radius:25px;
+
+    overflow:hidden;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    position:relative;
-    overflow:hidden;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 50%,
+            rgba(255,255,255,.13),
+            transparent 48%
+        ),
+        linear-gradient(
+            145deg,
+            #202020,
+            #0b0b0b
+        );
 }
 
-.vehicle-image::before{
+.vehicle-visual:before{
     content:"";
+
     position:absolute;
-    width:280px;
-    height:110px;
-    border-radius:50%;
+
+    width:310px;
+    height:115px;
+
     border:1px solid rgba(255,255,255,.12);
-    transform:rotate(-8deg);
+
+    border-radius:50%;
+
+    transform:rotate(-7deg);
 }
 
-.car-art{
+.vehicle-visual:after{
+    content:"";
+
+    position:absolute;
+
+    width:230px;
+    height:60px;
+
+    border-radius:50%;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    bottom:25px;
+}
+
+
+/* CAR */
+
+.car{
     position:relative;
-    width:265px;
-    height:95px;
+
+    width:300px;
+    height:125px;
+
+    transform:translateY(8px);
+}
+
+.car-shadow{
+    position:absolute;
+
+    left:25px;
+    bottom:12px;
+
+    width:250px;
+    height:22px;
+
+    border-radius:50%;
+
+    background:rgba(0,0,0,.7);
+
+    filter:blur(8px);
 }
 
 .car-body{
     position:absolute;
-    left:18px;
-    bottom:24px;
-    width:230px;
-    height:48px;
-    background:linear-gradient(#dadada,#777);
-    border-radius:30px 55px 18px 18px;
-    box-shadow:0 15px 25px rgba(0,0,0,.45);
+
+    left:27px;
+    bottom:29px;
+
+    width:250px;
+    height:57px;
+
+    border-radius:
+        35px
+        70px
+        18px
+        18px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f5f5f5,
+            #999
+        );
+
+    box-shadow:
+        inset 0 2px rgba(255,255,255,.8),
+        0 15px 30px rgba(0,0,0,.55);
 }
 
 .car-roof{
     position:absolute;
-    left:65px;
-    top:9px;
-    width:115px;
-    height:48px;
-    background:linear-gradient(135deg,#aaa,#444);
-    border-radius:70px 80px 0 0;
-    transform:skew(-12deg);
+
+    left:82px;
+    top:18px;
+
+    width:135px;
+    height:62px;
+
+    border-radius:
+        80px
+        90px
+        8px
+        8px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #d7d7d7,
+            #777
+        );
+
+    transform:skew(-10deg);
 }
 
-.car-window{
+.car-glass{
     position:absolute;
-    left:78px;
-    top:18px;
-    width:95px;
-    height:28px;
-    background:#111;
-    border-radius:25px 30px 5px 5px;
-    transform:skew(-12deg);
+
+    left:96px;
+    top:28px;
+
+    width:110px;
+    height:38px;
+
+    border-radius:
+        45px
+        50px
+        5px
+        5px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #181818,
+            #050505
+        );
+
+    transform:skew(-10deg);
+
+    border:1px solid rgba(255,255,255,.12);
 }
 
 .wheel{
     position:absolute;
-    bottom:5px;
-    width:42px;
-    height:42px;
-    background:#080808;
-    border:7px solid #303030;
+
+    bottom:12px;
+
+    width:49px;
+    height:49px;
+
     border-radius:50%;
+
+    background:#060606;
+
+    border:7px solid #303030;
+
+    box-shadow:
+        inset 0 0 0 3px #0b0b0b;
 }
 
-.wheel.one{
-    left:48px;
+.wheel-left{
+    left:54px;
 }
 
-.wheel.two{
-    right:40px;
+.wheel-right{
+    right:49px;
 }
 
-.card-info{
-    padding:18px 22px 23px;
+
+/* PROFILE DETAILS */
+
+.profile-details{
+    padding:18px 22px 24px;
 }
 
-.vehicle-type{
-    color:#777;
-    font-size:11px;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
+.vehicle-label{
+    color:#666;
+
+    font-size:10px;
+    font-weight:700;
+
+    letter-spacing:2px;
 }
 
 .vehicle-name{
-    font-size:27px;
-    font-weight:850;
-    margin-top:4px;
+    margin-top:5px;
+
+    font-size:30px;
+    line-height:1;
+
+    font-weight:900;
+
+    letter-spacing:-1.5px;
+}
+
+.vehicle-sub{
+    margin-top:8px;
+
+    color:#777;
+
+    font-size:13px;
 }
 
 .plate{
-    margin-top:10px;
-    display:inline-block;
-    background:#eee;
-    color:#111;
-    padding:7px 12px;
-    border-radius:7px;
-    font-weight:800;
+    display:inline-flex;
+
+    margin-top:16px;
+
+    padding:9px 15px;
+
+    border-radius:9px;
+
+    background:#f2f2f2;
+    color:#090909;
+
+    font-size:14px;
+    font-weight:900;
+
     letter-spacing:2px;
-    font-size:13px;
 }
 
-.card-actions{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin-top:18px;
+.owner-row{
+    display:flex;
+    align-items:center;
+
+    gap:11px;
+
+    margin-top:20px;
+
+    padding-top:18px;
+
+    border-top:1px solid rgba(255,255,255,.08);
 }
 
-.card-action{
-    height:49px;
-    border-radius:14px;
-    border:1px solid rgba(255,255,255,.1);
-    background:#111;
-    color:#fff;
+.owner-avatar{
+    width:40px;
+    height:40px;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:13px;
+
+    border-radius:50%;
+
+    background:#202020;
+
+    border:1px solid rgba(255,255,255,.1);
+
+    font-size:16px;
+}
+
+.owner-text small{
+    display:block;
+
+    color:#666;
+
+    font-size:9px;
     font-weight:700;
+
+    letter-spacing:1.2px;
 }
 
-.card-action.primary{
+.owner-text strong{
+    display:block;
+
+    margin-top:2px;
+
+    font-size:13px;
+}
+
+
+/* PROFILE ACTIONS */
+
+.profile-actions{
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:10px;
+
+    margin-top:19px;
+}
+
+.profile-action{
+    min-height:53px;
+
+    border-radius:16px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
+
+    border:1px solid rgba(255,255,255,.1);
+
+    background:#111;
+
+    color:#fff;
+
+    font-size:13px;
+    font-weight:800;
+
+    transition:.2s;
+}
+
+.profile-action:active{
+    transform:scale(.96);
+}
+
+.profile-action.main{
     background:#fff;
-    color:#000;
+    color:#050505;
 }
 
-/* FEATURES */
+
+/* =========================================================
+   NFC EXPERIENCE
+========================================================= */
+
+.nfc-demo{
+    max-width:850px;
+
+    margin:100px auto 0;
+
+    padding:30px 20px;
+
+    text-align:center;
+
+    border-radius:30px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.015)
+        );
+}
+
+.nfc-ring{
+    position:relative;
+
+    width:115px;
+    height:115px;
+
+    margin:5px auto 25px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.nfc-ring:before,
+.nfc-ring:after{
+    content:"";
+
+    position:absolute;
+
+    border:1px solid rgba(255,255,255,.16);
+
+    border-radius:50%;
+
+    animation:pulse 2.4s infinite;
+}
+
+.nfc-ring:before{
+    inset:8px;
+}
+
+.nfc-ring:after{
+    inset:0;
+
+    animation-delay:.5s;
+}
+
+.nfc-core{
+    width:58px;
+    height:58px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:19px;
+
+    background:#fff;
+    color:#050505;
+
+    font-size:22px;
+    font-weight:900;
+
+    box-shadow:
+        0 0 45px rgba(255,255,255,.12);
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(.72);
+        opacity:0;
+    }
+
+    30%{
+        opacity:1;
+    }
+
+    100%{
+        transform:scale(1.15);
+        opacity:0;
+    }
+}
+
+.nfc-demo h3{
+    font-size:25px;
+
+    letter-spacing:-1px;
+}
+
+.nfc-demo p{
+    max-width:500px;
+
+    margin:10px auto 0;
+
+    color:#777;
+
+    line-height:1.6;
+
+    font-size:14px;
+}
+
+
+/* =========================================================
+   FEATURES
+========================================================= */
+
+.features-section{
+    padding:110px 18px;
+}
 
 .features{
+    max-width:1000px;
+
+    margin:42px auto 0;
+
     display:grid;
+
     grid-template-columns:1fr;
-    gap:13px;
+
+    gap:12px;
 }
 
 .feature{
-    padding:24px;
+    padding:25px;
+
+    border-radius:24px;
+
     background:#0d0d0d;
+
     border:1px solid rgba(255,255,255,.08);
-    border-radius:23px;
 }
 
 .feature-icon{
-    width:44px;
-    height:44px;
-    border-radius:14px;
-    background:#181818;
+    width:45px;
+    height:45px;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
+    border-radius:14px;
+
+    background:#181818;
+
     font-size:20px;
+
     margin-bottom:18px;
 }
 
 .feature h3{
     font-size:18px;
-    margin-bottom:8px;
+
+    letter-spacing:-.4px;
 }
 
 .feature p{
-    color:#858585;
-    font-size:14px;
-    line-height:1.6;
+    margin-top:8px;
+
+    color:#777;
+
+    font-size:13px;
+
+    line-height:1.65;
 }
 
-/* HOW */
+
+/* =========================================================
+   HOW IT WORKS
+========================================================= */
+
+.how-section{
+    padding:80px 18px 110px;
+}
 
 .steps{
+    max-width:1000px;
+
+    margin:42px auto 0;
+
     display:grid;
+
     grid-template-columns:1fr;
+
     gap:12px;
 }
 
 .step{
     display:flex;
-    gap:17px;
+
+    gap:16px;
+
     padding:22px;
-    background:#0b0b0b;
-    border:1px solid rgba(255,255,255,.08);
+
     border-radius:22px;
+
+    background:#0b0b0b;
+
+    border:1px solid rgba(255,255,255,.08);
 }
 
 .step-number{
-    min-width:42px;
-    height:42px;
-    border-radius:13px;
-    background:#fff;
-    color:#000;
+    min-width:43px;
+    height:43px;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    font-weight:900;
+
+    border-radius:13px;
+
+    background:#fff;
+    color:#000;
+
+    font-size:12px;
+    font-weight:950;
 }
 
 .step h3{
     font-size:16px;
-    margin-bottom:5px;
 }
 
 .step p{
-    color:#777;
+    margin-top:6px;
+
+    color:#707070;
+
     font-size:13px;
-    line-height:1.5;
+
+    line-height:1.55;
 }
 
-/* CTA */
+
+/* =========================================================
+   CTA
+========================================================= */
 
 .cta{
-    margin:20px auto 80px;
-    max-width:960px;
-    padding:55px 25px;
+    margin:
+        10px
+        18px
+        80px;
+
+    padding:
+        55px
+        22px;
+
     text-align:center;
-    border-radius:30px;
-    background:
-        radial-gradient(circle at 50% 0,rgba(255,255,255,.1),transparent 50%),
-        #0c0c0c;
+
+    border-radius:31px;
+
     border:1px solid rgba(255,255,255,.1);
+
+    background:
+        radial-gradient(
+            circle at 50% 0,
+            rgba(255,255,255,.1),
+            transparent 55%
+        ),
+        #0d0d0d;
 }
 
 .cta h2{
-    font-size:35px;
-    letter-spacing:-1.5px;
+    font-size:36px;
+
+    letter-spacing:-2px;
 }
 
 .cta p{
     max-width:500px;
-    margin:15px auto 25px;
-    color:#858585;
+
+    margin:14px auto 25px;
+
+    color:#777;
+
+    font-size:14px;
+
     line-height:1.6;
 }
 
-/* FOOTER */
+.cta-button{
+    width:100%;
+    max-width:290px;
 
-footer{
-    border-top:1px solid rgba(255,255,255,.08);
-    padding:28px 20px;
-    text-align:center;
-    color:#555;
-    font-size:12px;
+    min-height:54px;
+
+    border:0;
+    border-radius:16px;
+
+    background:#fff;
+    color:#050505;
+
+    font-weight:850;
 }
 
-/* MODAL */
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+    padding:30px 20px 45px;
+
+    text-align:center;
+
+    border-top:1px solid rgba(255,255,255,.07);
+
+    color:#4d4d4d;
+
+    font-size:11px;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
 
 .modal{
     position:fixed;
+
     inset:0;
-    z-index:100;
+
+    z-index:500;
+
     display:none;
+
     align-items:flex-end;
-    background:rgba(0,0,0,.72);
-    backdrop-filter:blur(8px);
+
+    background:rgba(0,0,0,.75);
+
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
 }
 
-.modal.active{
+.modal.open{
     display:flex;
 }
 
 .modal-box{
     width:100%;
+
+    padding:
+        27px
+        20px
+        calc(28px + env(safe-area-inset-bottom));
+
+    border-radius:
+        30px
+        30px
+        0
+        0;
+
     background:#111;
-    border-radius:28px 28px 0 0;
+
     border:1px solid rgba(255,255,255,.1);
-    padding:28px 22px 35px;
-    animation:up .25s ease;
+
+    animation:modalUp .25s ease;
 }
 
-@keyframes up{
+@keyframes modalUp{
     from{
         transform:translateY(100%);
     }
+
     to{
         transform:translateY(0);
     }
 }
 
-.modal-box h3{
-    font-size:24px;
+.modal-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.modal-box p{
-    color:#888;
+.modal-title{
+    font-size:23px;
+    font-weight:900;
+}
+
+.close{
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.1);
+
+    background:#1b1b1b;
+
+    color:#fff;
+
+    font-size:18px;
+}
+
+.modal-description{
     margin-top:8px;
+
+    color:#777;
+
+    font-size:13px;
+
     line-height:1.5;
-    font-size:14px;
 }
 
-.modal-close{
+
+/* FORM */
+
+.form{
     margin-top:22px;
-    width:100%;
-    height:52px;
-    border:0;
-    border-radius:15px;
-    background:#fff;
-    color:#000;
-    font-weight:800;
 }
 
-/* DESKTOP */
+.field{
+    width:100%;
+
+    margin-bottom:10px;
+
+    padding:
+        15px
+        16px;
+
+    border-radius:15px;
+
+    border:1px solid rgba(255,255,255,.1);
+
+    background:#090909;
+
+    color:#fff;
+
+    outline:none;
+}
+
+.field::placeholder{
+    color:#555;
+}
+
+textarea.field{
+    min-height:110px;
+
+    resize:none;
+}
+
+.form-button{
+    width:100%;
+
+    min-height:54px;
+
+    border:0;
+
+    border-radius:16px;
+
+    background:#fff;
+
+    color:#050505;
+
+    font-weight:850;
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+.side-menu{
+    position:fixed;
+
+    inset:0;
+
+    z-index:400;
+
+    display:none;
+
+    background:rgba(0,0,0,.72);
+
+    backdrop-filter:blur(10px);
+}
+
+.side-menu.open{
+    display:block;
+}
+
+.menu-panel{
+    position:absolute;
+
+    right:0;
+    top:0;
+    bottom:0;
+
+    width:min(350px,88vw);
+
+    padding:
+        100px
+        25px
+        30px;
+
+    background:#0b0b0b;
+
+    border-left:1px solid rgba(255,255,255,.1);
+
+    animation:menuIn .25s ease;
+}
+
+@keyframes menuIn{
+    from{
+        transform:translateX(100%);
+    }
+
+    to{
+        transform:translateX(0);
+    }
+}
+
+.menu-panel h3{
+    font-size:26px;
+    letter-spacing:-1px;
+}
+
+.menu-links{
+    display:flex;
+    flex-direction:column;
+
+    margin-top:30px;
+}
+
+.menu-link{
+    padding:18px 0;
+
+    border-bottom:1px solid rgba(255,255,255,.07);
+
+    color:#aaa;
+
+    font-size:15px;
+    font-weight:700;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+    position:fixed;
+
+    left:50%;
+    bottom:25px;
+
+    z-index:800;
+
+    transform:
+        translate(-50%,30px);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    padding:
+        12px
+        17px;
+
+    border-radius:100px;
+
+    background:#fff;
+
+    color:#050505;
+
+    font-size:12px;
+    font-weight:800;
+
+    transition:.25s;
+}
+
+.toast.show{
+    transform:
+        translate(-50%,0);
+
+    opacity:1;
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
 
 @media(min-width:700px){
 
     .header{
-        padding:0 40px;
+        padding:0 42px;
     }
 
     .hero{
@@ -563,24 +1435,23 @@ footer{
         justify-content:center;
     }
 
-    .btn{
-        padding:0 28px;
+    .primary-button,
+    .secondary-button{
+        padding:0 30px;
     }
 
     .features{
-        grid-template-columns:repeat(3,1fr);
+        grid-template-columns:
+            repeat(3,1fr);
     }
 
     .steps{
-        grid-template-columns:repeat(3,1fr);
+        grid-template-columns:
+            repeat(3,1fr);
     }
 
     .step{
         flex-direction:column;
-    }
-
-    .step-number{
-        min-width:42px;
     }
 
     .modal{
@@ -589,327 +1460,751 @@ footer{
     }
 
     .modal-box{
-        width:400px;
+        width:420px;
+
         border-radius:28px;
     }
+
+    .cta{
+        max-width:960px;
+
+        margin-left:auto;
+        margin-right:auto;
+    }
 }
+
 </style>
 </head>
 
+
 <body>
 
+
+<!-- =======================================================
+     HEADER
+======================================================= -->
+
 <header class="header">
-    <div class="logo">NF<span>CAR</span></div>
 
-    <button class="menu-btn" onclick="openMenu()">
-        ☰
-    </button>
-</header>
-
-<main>
-
-<section class="hero">
-
-    <div class="badge">
-        <span class="badge-dot"></span>
-        Yeni nesil araç iletişim sistemi
+    <div class="logo">
+        NFC<span>AR</span>
     </div>
 
-    <h1>
-        Aracın artık<br>
-        <span>konuşabiliyor.</span>
-    </h1>
+    <div class="header-right">
 
-    <p>
-        NFCAR ile aracının üzerine yerleştirilen tek bir NFC etiketi
-        sayesinde insanlar sana hızlı, kolay ve modern şekilde ulaşabilir.
-    </p>
-
-    <div class="hero-buttons">
-        <a href="#demo" class="btn btn-primary">
-            Demo'yu İncele
-        </a>
-
-        <a href="#nasil" class="btn btn-secondary">
-            Nasıl Çalışır?
-        </a>
-    </div>
-
-</section>
-
-
-<section class="section" id="demo">
-
-    <div class="container">
-
-        <div class="section-title">
-            <small>NFCAR EXPERIENCE</small>
-            <h2>Dijital araç kartın.</h2>
+        <div class="live-pill">
+            <span class="live-dot"></span>
+            NFCAR AKTİF
         </div>
 
-        <div class="demo-wrap">
-
-            <div class="digital-card">
-
-                <div class="card-top">
-                    <div class="card-brand">NFCAR</div>
-
-                    <div class="card-status">
-                        ● AKTİF
-                    </div>
-                </div>
-
-
-                <div class="vehicle-image">
-
-                    <div class="car-art">
-
-                        <div class="car-roof"></div>
-
-                        <div class="car-window"></div>
-
-                        <div class="car-body"></div>
-
-                        <div class="wheel one"></div>
-                        <div class="wheel two"></div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="card-info">
-
-                    <div class="vehicle-type">
-                        ARAÇ PROFİLİ
-                    </div>
-
-                    <div class="vehicle-name">
-                        Volkswagen Golf
-                    </div>
-
-                    <div class="plate">
-                        34 NFC 001
-                    </div>
-
-
-                    <div class="card-actions">
-
-                        <a class="card-action primary"
-                           href="tel:+905555555555">
-                            ☎ Ara
-                        </a>
-
-                        <button class="card-action"
-                                onclick="showMessage()">
-                            ✉ Mesaj Gönder
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<section class="section">
-
-    <div class="container">
-
-        <div class="section-title">
-            <small>NEDEN NFCAR?</small>
-            <h2>Basit. Akıllı. Modern.</h2>
-        </div>
-
-
-        <div class="features">
-
-            <div class="feature">
-
-                <div class="feature-icon">
-                    📲
-                </div>
-
-                <h3>Tek Dokunuş</h3>
-
-                <p>
-                    NFC destekli telefon etikete dokunduğunda
-                    araç sahibinin dijital profili açılır.
-                </p>
-
-            </div>
-
-
-            <div class="feature">
-
-                <div class="feature-icon">
-                    🚗
-                </div>
-
-                <h3>Araç Profili</h3>
-
-                <p>
-                    İletişim bilgileri, araç bilgileri ve
-                    istediğin özel bilgiler tek bir yerde.
-                </p>
-
-            </div>
-
-
-            <div class="feature">
-
-                <div class="feature-icon">
-                    🔒
-                </div>
-
-                <h3>Kontrol Sende</h3>
-
-                <p>
-                    Profilindeki bilgileri istediğin zaman
-                    güncelleyebilir veya değiştirebilirsin.
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<section class="section" id="nasil">
-
-    <div class="container">
-
-        <div class="section-title">
-            <small>3 ADIMDA</small>
-            <h2>NFCAR nasıl çalışır?</h2>
-        </div>
-
-
-        <div class="steps">
-
-            <div class="step">
-
-                <div class="step-number">
-                    01
-                </div>
-
-                <div>
-                    <h3>Etiketi yerleştir</h3>
-
-                    <p>
-                        NFCAR etiketini aracının uygun bir
-                        noktasına yerleştir.
-                    </p>
-                </div>
-
-            </div>
-
-
-            <div class="step">
-
-                <div class="step-number">
-                    02
-                </div>
-
-                <div>
-                    <h3>Telefonu yaklaştır</h3>
-
-                    <p>
-                        NFC özellikli telefon etikete
-                        yaklaştırıldığında profil açılır.
-                    </p>
-                </div>
-
-            </div>
-
-
-            <div class="step">
-
-                <div class="step-number">
-                    03
-                </div>
-
-                <div>
-                    <h3>İletişime geç</h3>
-
-                    <p>
-                        Karşıdaki kişi araç sahibiyle
-                        hızlıca iletişim kurabilir.
-                    </p>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<div class="cta">
-
-    <h2>Aracını dijitale taşı.</h2>
-
-    <p>
-        NFCAR, araç sahipleri için fiziksel dünya ile
-        dijital dünya arasında yeni bir bağlantı kuruyor.
-    </p>
-
-    <button class="btn btn-primary"
-            onclick="showMessage()"
-            style="margin:auto;max-width:280px;width:100%;">
-        NFCAR'ı Keşfet
-    </button>
-
-</div>
-
-</main>
-
-
-<footer>
-    © 2026 NFCAR — Digital Vehicle Identity
-</footer>
-
-
-<div class="modal" id="modal">
-
-    <div class="modal-box">
-
-        <h3>Demo bağlantısı</h3>
-
-        <p>
-            Burası NFCAR'ın iletişim ekranının demo versiyonudur.
-            Gerçek sistemde araç sahibine bildirim gönderilebilir.
-        </p>
-
-        <button class="modal-close"
-                onclick="closeMessage()">
-            Kapat
+        <button
+            class="menu-button"
+            onclick="openMenu()"
+            aria-label="Menü">
+            ☰
         </button>
 
     </div>
 
+</header>
+
+
+<!-- =======================================================
+     HERO
+======================================================= -->
+
+<section class="hero">
+
+    <div class="nfc-badge">
+
+        <span class="nfc-icon"></span>
+
+        Yeni nesil araç iletişim sistemi
+
+    </div>
+
+
+    <h1>
+
+        Aracın artık
+
+        <span>konuşabiliyor.</span>
+
+    </h1>
+
+
+    <p class="hero-description">
+
+        NFCAR, aracını fiziksel bir iletişim noktasından
+        dijital bir profile dönüştürür.
+        Tek dokunuşla araç sahibine ulaş.
+
+    </p>
+
+
+    <div class="hero-buttons">
+
+        <a
+            href="#profil"
+            class="primary-button">
+
+            Dijital Profili Aç
+
+        </a>
+
+
+        <a
+            href="#nasil"
+            class="secondary-button">
+
+            Nasıl Çalışır?
+
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     PROFILE
+======================================================= -->
+
+<section
+    class="preview-section"
+    id="profil">
+
+
+    <div class="section-label">
+        NFCAR EXPERIENCE
+    </div>
+
+
+    <h2 class="section-heading">
+        Dijital araç kimliği.
+    </h2>
+
+
+    <div class="profile-wrap">
+
+
+        <div class="profile-card">
+
+            <div class="profile-glow"></div>
+
+
+            <div class="profile-header">
+
+                <div class="profile-brand">
+                    NFCAR
+                </div>
+
+
+                <div class="active-status">
+
+                    <span></span>
+
+                    AKTİF
+
+                </div>
+
+            </div>
+
+
+
+            <!-- VEHICLE -->
+
+            <div class="vehicle-visual">
+
+
+                <div class="car">
+
+
+                    <div class="car-shadow"></div>
+
+
+                    <div class="car-roof"></div>
+
+
+                    <div class="car-glass"></div>
+
+
+                    <div class="car-body"></div>
+
+
+                    <div class="wheel wheel-left"></div>
+
+                    <div class="wheel wheel-right"></div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- DETAILS -->
+
+            <div class="profile-details">
+
+
+                <div class="vehicle-label">
+                    ARAÇ PROFİLİ
+                </div>
+
+
+                <div class="vehicle-name">
+                    Volkswagen Golf
+                </div>
+
+
+                <div class="vehicle-sub">
+                    2013 • Comfortline • 1.6 TDI
+                </div>
+
+
+                <div class="plate">
+                    34 NFC 001
+                </div>
+
+
+
+                <div class="owner-row">
+
+                    <div class="owner-avatar">
+                        👤
+                    </div>
+
+                    <div class="owner-text">
+
+                        <small>
+                            ARAÇ SAHİBİ
+                        </small>
+
+                        <strong>
+                            Batu
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="profile-actions">
+
+
+                    <a
+                        class="profile-action main"
+                        href="tel:+905555555555">
+
+                        ☎️ Ara
+
+                    </a>
+
+
+                    <a
+                        class="profile-action"
+                        href="https://wa.me/905555555555"
+                        target="_blank">
+
+                        💬 WhatsApp
+
+                    </a>
+
+
+                    <button
+                        class="profile-action"
+                        onclick="openMessage()">
+
+                        ✉️ Mesaj
+
+                    </button>
+
+
+                    <button
+                        class="profile-action"
+                        onclick="copyProfile()">
+
+                        🔗 Linki Kopyala
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- NFC EXPERIENCE -->
+
+    <div class="nfc-demo">
+
+
+        <div class="nfc-ring">
+
+            <div class="nfc-core">
+                NFC
+            </div>
+
+        </div>
+
+
+        <h3>
+            Telefonunu yaklaştır.
+        </h3>
+
+
+        <p>
+            NFCAR etiketi okutulduğunda bu dijital
+            araç profili doğrudan telefonunda açılır.
+        </p>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =======================================================
+     FEATURES
+======================================================= -->
+
+<section class="features-section">
+
+
+    <div class="section-label">
+        NFCAR SYSTEM
+    </div>
+
+
+    <h2 class="section-heading">
+        Sadece bir etiket değil.
+    </h2>
+
+
+
+    <div class="features">
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                📲
+            </div>
+
+            <h3>
+                Tek Dokunuş
+            </h3>
+
+            <p>
+                NFC destekli telefonla etikete
+                dokunulduğunda araç profili anında açılır.
+            </p>
+
+        </div>
+
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                💬
+            </div>
+
+            <h3>
+                Hızlı İletişim
+            </h3>
+
+            <p>
+                Araç sahibiyle arama, WhatsApp veya
+                mesaj üzerinden kolayca iletişim kurulabilir.
+            </p>
+
+        </div>
+
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🔐
+            </div>
+
+            <h3>
+                Kontrol Sende
+            </h3>
+
+            <p>
+                Profil bilgilerini değiştirebilir,
+                iletişim seçeneklerini yönetebilirsin.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     HOW
+======================================================= -->
+
+<section
+    class="how-section"
+    id="nasil">
+
+
+    <div class="section-label">
+        3 ADIM
+    </div>
+
+
+    <h2 class="section-heading">
+        Nasıl çalışır?
+    </h2>
+
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                01
+            </div>
+
+            <div>
+
+                <h3>
+                    NFCAR'ı aracına yerleştir
+                </h3>
+
+                <p>
+                    Etiketi aracının dış veya iç kısmındaki
+                    uygun bir noktaya yerleştir.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="step">
+
+            <div class="step-number">
+                02
+            </div>
+
+            <div>
+
+                <h3>
+                    Telefonu yaklaştır
+                </h3>
+
+                <p>
+                    NFC destekli telefon etiketi
+                    okuduğunda profil bağlantısını açar.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="step">
+
+            <div class="step-number">
+                03
+            </div>
+
+            <div>
+
+                <h3>
+                    İletişime geç
+                </h3>
+
+                <p>
+                    Araç sahibiyle istediğin iletişim
+                    kanalından bağlantı kur.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     CTA
+======================================================= -->
+
+<section class="cta">
+
+
+    <h2>
+        Aracını dijitale taşı.
+    </h2>
+
+
+    <p>
+        NFCAR ile aracın sadece park halinde duran
+        bir araç olmaktan çıkar. Sana ulaşılabilir
+        bir dijital kimliğe dönüşür.
+    </p>
+
+
+    <button
+        class="cta-button"
+        onclick="openMessage()">
+
+        NFCAR'ı Deneyimle
+
+    </button>
+
+
+</section>
+
+
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
+
+<footer>
+
+    © 2026 NFCAR
+
+    <br><br>
+
+    Digital Vehicle Identity
+
+</footer>
+
+
+
+<!-- =======================================================
+     MESSAGE MODAL
+======================================================= -->
+
+<div
+    class="modal"
+    id="messageModal">
+
+
+    <div class="modal-box">
+
+
+        <div class="modal-top">
+
+            <div class="modal-title">
+                Araç sahibine mesaj
+            </div>
+
+
+            <button
+                class="close"
+                onclick="closeMessage()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <p class="modal-description">
+
+            Mesajını bırak. Bu alan gerçek sistemde
+            araç sahibine bildirim gönderecek şekilde
+            bağlanabilir.
+
+        </p>
+
+
+
+        <div class="form">
+
+
+            <input
+                class="field"
+                id="senderName"
+                type="text"
+                placeholder="Adın">
+
+
+            <input
+                class="field"
+                id="senderPhone"
+                type="tel"
+                placeholder="Telefon numaran">
+
+
+            <textarea
+                class="field"
+                id="messageText"
+                placeholder="Mesajın..."></textarea>
+
+
+            <button
+                class="form-button"
+                onclick="sendMessage()">
+
+                Mesajı Gönder
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
 </div>
+
+
+
+<!-- =======================================================
+     MENU
+======================================================= -->
+
+<div
+    class="side-menu"
+    id="sideMenu"
+    onclick="closeMenu(event)">
+
+
+    <div
+        class="menu-panel"
+        onclick="event.stopPropagation()">
+
+
+        <h3>
+            NFCAR
+        </h3>
+
+
+        <div class="menu-links">
+
+
+            <a
+                href="#profil"
+                class="menu-link"
+                onclick="closeMenu()">
+
+                Dijital Profil
+
+            </a>
+
+
+            <a
+                href="#nasil"
+                class="menu-link"
+                onclick="closeMenu()">
+
+                Nasıl Çalışır?
+
+            </a>
+
+
+            <button
+                class="menu-link"
+                onclick="openMessage();closeMenu();"
+                style="
+                    text-align:left;
+                    background:none;
+                    border:0;
+                    color:#aaa;
+                ">
+
+                İletişim
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =======================================================
+     TOAST
+======================================================= -->
+
+<div
+    class="toast"
+    id="toast">
+
+    İşlem başarılı
+
+</div>
+
 
 
 <script>
 
-function showMessage(){
+
+/* =========================================================
+   MENU
+========================================================= */
+
+function openMenu(){
 
     document
-        .getElementById("modal")
+        .getElementById("sideMenu")
         .classList
-        .add("active");
+        .add("open");
+
+}
+
+
+function closeMenu(){
+
+    document
+        .getElementById("sideMenu")
+        .classList
+        .remove("open");
+
+}
+
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function openMessage(){
+
+    document
+        .getElementById("messageModal")
+        .classList
+        .add("open");
 
 }
 
@@ -917,33 +2212,214 @@ function showMessage(){
 function closeMessage(){
 
     document
-        .getElementById("modal")
+        .getElementById("messageModal")
         .classList
-        .remove("active");
+        .remove("open");
 
 }
 
 
-function openMenu(){
+
+/* =========================================================
+   SEND MESSAGE
+========================================================= */
+
+function sendMessage(){
+
+    const name =
+        document
+        .getElementById("senderName")
+        .value
+        .trim();
+
+    const phone =
+        document
+        .getElementById("senderPhone")
+        .value
+        .trim();
+
+    const message =
+        document
+        .getElementById("messageText")
+        .value
+        .trim();
+
+
+    if(!name || !phone || !message){
+
+        showToast("Lütfen tüm alanları doldur.");
+
+        return;
+
+    }
+
+
+    closeMessage();
+
 
     document
-        .getElementById("nasil")
-        .scrollIntoView({
-            behavior:"smooth"
-        });
+        .getElementById("senderName")
+        .value="";
+
+    document
+        .getElementById("senderPhone")
+        .value="";
+
+    document
+        .getElementById("messageText")
+        .value="";
+
+
+    showToast("Mesajın alındı ✓");
 
 }
 
 
+
+/* =========================================================
+   COPY PROFILE
+========================================================= */
+
+function copyProfile(){
+
+    const url =
+        window.location.href;
+
+
+    if(navigator.clipboard){
+
+        navigator.clipboard
+            .writeText(url)
+            .then(function(){
+
+                showToast("Profil linki kopyalandı ✓");
+
+            })
+            .catch(function(){
+
+                showToast("Link kopyalanamadı.");
+
+            });
+
+    }else{
+
+        showToast("Link: " + url);
+
+    }
+
+}
+
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+
+function showToast(text){
+
+    const toast =
+        document
+        .getElementById("toast");
+
+
+    toast.textContent=text;
+
+    toast.classList.add("show");
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer =
+        setTimeout(function(){
+
+            toast.classList.remove("show");
+
+        },2500);
+
+}
+
+
+
+/* =========================================================
+   CLOSE MODAL WITH BACKDROP
+========================================================= */
+
 document
-    .getElementById("modal")
-    .addEventListener("click",function(e){
+    .getElementById("messageModal")
+    .addEventListener(
+        "click",
+        function(event){
 
-        if(e.target === this){
-            closeMessage();
+            if(event.target===this){
+
+                closeMessage();
+
+            }
+
         }
+    );
 
-    });
+
+/* =========================================================
+   ESC
+========================================================= */
+
+document
+    .addEventListener(
+        "keydown",
+        function(event){
+
+            if(event.key==="Escape"){
+
+                closeMessage();
+                closeMenu();
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   NFC ENTRY EFFECT
+========================================================= */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        setTimeout(
+            function(){
+
+                document
+                    .querySelector(".nfc-badge")
+                    .animate(
+                        [
+                            {
+                                transform:"scale(.96)",
+                                opacity:.65
+                            },
+                            {
+                                transform:"scale(1)",
+                                opacity:1
+                            }
+                        ],
+                        {
+                            duration:600,
+                            easing:"ease-out"
+                        }
+                    );
+
+            },
+            350
+        );
+
+    }
+);
 
 </script>
 
