@@ -1,99 +1,402 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NFCAR — Dijital Araç Kimliği</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;background:#070809;color:#f5f5f5;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif}
-main{max-width:480px;margin:auto;padding:22px 18px 45px}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
-.logo{font-size:25px;font-weight:800;letter-spacing:-1px}.logo i{color:#777;font-style:normal}
-.avatar{width:42px;height:42px;border:1px solid #303238;border-radius:50%;display:grid;place-items:center;background:#15171a;font-weight:700}
-.eyebrow{font-size:12px;color:#777b82;letter-spacing:1px;margin-bottom:7px}
-h1{font-size:34px;line-height:1.03;letter-spacing:-1.7px;margin:0 0 24px}
-h1 span{color:#858991}
-.hero{padding:20px;border:1px solid #292c31;border-radius:25px;background:linear-gradient(145deg,#181a1f,#0d0e10);box-shadow:0 20px 60px #0008}
-.status{display:inline-block;background:#22252a;border-radius:20px;padding:7px 11px;font-size:11px;color:#d8d9dc}
-.car{height:155px;display:grid;place-items:center}
-.car svg{width:100%;max-width:330px}
-h2{font-size:22px;margin:0}.sub{color:#858991;font-size:13px;margin-top:6px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
-.stat{background:#111317;border:1px solid #292c31;border-radius:15px;padding:13px 10px}.stat b{display:block;font-size:15px}.stat small{color:#777b82;font-size:10px}
-.buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}
-button{border:0;border-radius:14px;padding:15px;font-weight:700;font-size:13px}.light{background:#f2f2f2;color:#090909}.dark{background:#1b1d21;color:white;border:1px solid #303238}
-section{margin-top:27px}section>h3{font-size:17px;margin:0 0 11px}
-.card{border:1px solid #292c31;background:#111317;border-radius:19px;padding:4px 17px}
-.row{display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid #25272b;font-size:13px}.row:last-child{border:0}.row span{color:#81858c}
-.note{padding:17px;border:1px solid #292c31;border-radius:18px;background:#111317}.note b{font-size:13px}.note p{margin:7px 0 0;color:#858991;font-size:12px;line-height:1.5}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:9px}.box{padding:17px;border:1px solid #292c31;border-radius:18px;background:#111317}.box strong{font-size:13px}.box p{font-size:11px;color:#858991;line-height:1.5;margin-bottom:0}
-footer{text-align:center;color:#555960;font-size:10px;margin-top:32px}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:#080a0d;
+  color:#f5f5f5;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+
+main{
+  width:100%;
+  max-width:480px;
+  margin:auto;
+  padding:18px;
+}
+
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 0 24px;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:800;
+  letter-spacing:3px;
+}
+
+.logo span{
+  color:#8b939d;
+}
+
+.avatar{
+  width:42px;
+  height:42px;
+  border:1px solid #343a42;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+}
+
+.hero{
+  border:1px solid #292e35;
+  border-radius:24px;
+  background:linear-gradient(145deg,#15191e,#0d1014);
+  padding:22px;
+  box-shadow:0 15px 45px rgba(0,0,0,.35);
+}
+
+.eyebrow{
+  color:#7e8791;
+  font-size:12px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+h1{
+  font-size:34px;
+  line-height:1.05;
+  letter-spacing:-1px;
+  margin-bottom:10px;
+}
+
+h1 span{
+  color:#89919b;
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  background:#171c21;
+  border:1px solid #30363e;
+  border-radius:30px;
+  padding:8px 12px;
+  color:#b9c0c7;
+  font-size:13px;
+  margin-bottom:20px;
+}
+
+.dot{
+  width:7px;
+  height:7px;
+  background:#62d47a;
+  border-radius:50%;
+}
+
+.car{
+  height:175px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:5px 0 15px;
+}
+
+.car svg{
+  width:100%;
+  max-width:330px;
+}
+
+h2{
+  font-size:22px;
+  margin-bottom:4px;
+}
+
+.sub{
+  color:#858d96;
+  font-size:14px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:22px;
+}
+
+.stat{
+  background:#11151a;
+  border:1px solid #292e35;
+  border-radius:15px;
+  padding:13px 8px;
+  text-align:center;
+}
+
+.stat strong{
+  display:block;
+  font-size:17px;
+}
+
+.stat small{
+  color:#737b84;
+  font-size:11px;
+}
+
+section{
+  margin-top:25px;
+}
+
+.section-title{
+  color:#8b939d;
+  font-size:12px;
+  letter-spacing:1.5px;
+  margin-bottom:10px;
+  text-transform:uppercase;
+}
+
+.card{
+  border:1px solid #292e35;
+  background:#11151a;
+  border-radius:18px;
+  padding:17px;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 0;
+  border-bottom:1px solid #242930;
+}
+
+.row:last-child{
+  border-bottom:0;
+}
+
+.label{
+  color:#747d87;
+  font-size:13px;
+}
+
+.value{
+  font-size:14px;
+  font-weight:600;
+}
+
+.buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:15px;
+}
+
+button{
+  border:0;
+  border-radius:15px;
+  padding:15px 10px;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.primary{
+  background:#f1f3f5;
+  color:#080a0d;
+}
+
+.secondary{
+  background:#171c21;
+  color:#fff;
+  border:1px solid #30363e;
+}
+
+.note{
+  padding:17px;
+  border:1px solid #292e35;
+  border-radius:18px;
+  background:#11151a;
+  color:#8d959e;
+  font-size:13px;
+  line-height:1.6;
+}
+
+footer{
+  text-align:center;
+  color:#4f565f;
+  font-size:11px;
+  padding:35px 0 20px;
+  letter-spacing:1px;
+}
 </style>
 </head>
-<body>
-<main>
-<header><div class="logo">NFC<i>AR</i></div><div class="avatar">B</div></header>
 
-<div class="eyebrow">NFCAR SAHİP PANELİ</div>
-<h1>Aracın.<br><span>Tek kimliği.</span></h1>
+<body>
+
+<main>
+
+<header>
+  <div class="logo">NFC<span>AR</span></div>
+  <div class="avatar">🚘</div>
+</header>
 
 <div class="hero">
-<div class="status">● AKTİF NFC + QR</div>
-<div class="car">
-<svg viewBox="0 0 420 180" fill="none">
-<path d="M58 124h304v20H58z" fill="#25282d"/>
-<path d="M98 124l30-51c5-8 13-13 23-13h108c10 0 19 5 24 13l31 51H98z" fill="#181a1e" stroke="#60646b" stroke-width="3"/>
-<path d="M139 74h139l19 36H118l21-36z" fill="#0e1013" stroke="#40444a" stroke-width="2"/>
-<path d="M188 74v36M235 74v36" stroke="#40444a" stroke-width="2"/>
-<circle cx="110" cy="145" r="22" fill="#08090b" stroke="#5d6168" stroke-width="4"/>
-<circle cx="310" cy="145" r="22" fill="#08090b" stroke="#5d6168" stroke-width="4"/>
-<circle cx="110" cy="145" r="7" fill="#777b82"/><circle cx="310" cy="145" r="7" fill="#777b82"/>
-</svg>
-</div>
-<h2>Golf 7 Comfortline</h2>
-<div class="sub">2013 • 1.6 TDI DSG • Siyah / Bej</div>
 
-<div class="stats">
-<div class="stat"><b>95.000</b><small>KM</small></div>
-<div class="stat"><b>2013</b><small>MODEL</small></div>
-<div class="stat"><b>AKTİF</b><small>NFCAR</small></div>
-</div>
+  <div class="eyebrow">Dijital Araç Kimliği</div>
 
-<div class="buttons">
-<button class="light" onclick="alert('Araç profili açılacak')">Profili Gör</button>
-<button class="dark" onclick="alert('QR oluşturucu yakında')">QR Oluştur</button>
-</div>
+  <h1>VOLKSWAGEN<br><span>GOLF</span></h1>
+
+  <div class="status">
+    <div class="dot"></div>
+    AKTİF NFCAR KİMLİĞİ
+  </div>
+
+  <div class="car">
+
+    <svg viewBox="0 0 420 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+      <path d="M74 120L91 78C96 65 108 57 122 55L285 55C301 55 315 64 322 78L342 120"
+      stroke="#9aa2ab" stroke-width="5"/>
+
+      <path d="M55 120H365C374 120 381 127 381 136V146C381 153 375 159 368 159H52C45 159 39 153 39 146V136C39 127 46 120 55 120Z"
+      stroke="#f2f3f4" stroke-width="5"/>
+
+      <path d="M104 82L119 62H190V105H92L104 82Z"
+      fill="#1b2025" stroke="#737b84" stroke-width="3"/>
+
+      <path d="M199 62H285L306 105H199V62Z"
+      fill="#1b2025" stroke="#737b84" stroke-width="3"/>
+
+      <circle cx="101" cy="145" r="18"
+      fill="#080a0d" stroke="#9aa2ab" stroke-width="5"/>
+
+      <circle cx="319" cy="145" r="18"
+      fill="#080a0d" stroke="#9aa2ab" stroke-width="5"/>
+
+      <path d="M62 117H355" stroke="#f2f3f4" stroke-width="4"/>
+
+    </svg>
+
+  </div>
+
+  <h2>Golf 1.6 TDI</h2>
+  <div class="sub">Comfortline • DSG • BlueMotion</div>
+
+  <div class="stats">
+    <div class="stat">
+      <strong>2013</strong>
+      <small>MODEL</small>
+    </div>
+
+    <div class="stat">
+      <strong>95.000</strong>
+      <small>KM</small>
+    </div>
+
+    <div class="stat">
+      <strong>1.6 TDI</strong>
+      <small>MOTOR</small>
+    </div>
+  </div>
+
 </div>
 
 <section>
-<h3>Araç bilgileri</h3>
-<div class="card">
-<div class="row"><span>Marka / Model</span><b>Volkswagen Golf 7</b></div>
-<div class="row"><span>Model yılı</span><b>2013</b></div>
-<div class="row"><span>Motor</span><b>1.6 TDI</b></div>
-<div class="row"><span>Şanzıman</span><b>DSG Otomatik</b></div>
-<div class="row"><span>Renk</span><b>Siyah</b></div>
-<div class="row"><span>İç mekan</span><b>Bej</b></div>
-</div>
+
+  <div class="section-title">Araç Bilgileri</div>
+
+  <div class="card">
+
+    <div class="row">
+      <div class="label">Marka / Model</div>
+      <div class="value">Volkswagen Golf 7</div>
+    </div>
+
+    <div class="row">
+      <div class="label">Motor</div>
+      <div class="value">1.6 TDI 105 PS</div>
+    </div>
+
+    <div class="row">
+      <div class="label">Şanzıman</div>
+      <div class="value">DSG Otomatik</div>
+    </div>
+
+    <div class="row">
+      <div class="label">Renk</div>
+      <div class="value">Siyah</div>
+    </div>
+
+  </div>
+
 </section>
 
 <section>
-<h3>İletişim & Gizlilik</h3>
-<div class="note">
-<b>Telefon numaran herkese açık değil.</b>
-<p>Araç sahibi iletişim yöntemlerini kendi seçer. Ziyaretçi numaranı görmeden iletişim başlatabilir.</p>
-</div>
+
+  <div class="section-title">Hızlı İşlemler</div>
+
+  <div class="buttons">
+
+    <button class="primary" onclick="contactOwner()">
+      Sahibiyle İletişim
+    </button>
+
+    <button class="secondary" onclick="shareNFCAR()">
+      NFCAR'ı Paylaş
+    </button>
+
+  </div>
+
 </section>
 
 <section>
-<h3>NFCAR nasıl çalışır?</h3>
-<div class="two">
-<div class="box"><strong>◉ NFC</strong><p>Telefonunu aksesuarın ön yüzüne yaklaştır.</p></div>
-<div class="box"><strong>▦ QR</strong><p>NFC kullanılamazsa arka yüzündeki QR'ı okut.</p></div>
-</div>
+
+  <div class="section-title">NFCAR Hakkında</div>
+
+  <div class="note">
+    Bu araç NFCAR dijital kimlik sistemi ile kayıtlıdır.
+    Araçla ilgili iletişim ve doğrulama işlemleri tek bir
+    dijital kimlik üzerinden gerçekleştirilebilir.
+  </div>
+
 </section>
 
-<footer>NFCAR • Araçların dijital kimliği</footer>
+<footer>
+  NFCAR • ARAÇLARIN DİJİTAL KİMLİĞİ
+</footer>
+
 </main>
+
+<script>
+
+function contactOwner(){
+  alert("İletişim özelliği demo aşamasındadır.");
+}
+
+function shareNFCAR(){
+
+  if(navigator.share){
+
+    navigator.share({
+      title:"NFCAR — Dijital Araç Kimliği",
+      text:"Bu aracın NFCAR dijital kimliğine göz at.",
+      url:window.location.href
+    });
+
+  }else{
+
+    alert("Paylaşım özelliği bu cihazda desteklenmiyor.");
+
+  }
+
+}
+
+</script>
+
 </body>
 </html>
