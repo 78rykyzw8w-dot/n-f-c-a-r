@@ -1,49 +1,99 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="tr">
-
 <head>
-
-<meta charset="UTF-8">
-
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>NFCAR — Yönetim Paneli</title>
-
+<title>NFCAR — Dijital Araç Kimliği</title>
 <style>
-
-*{box-sizing:border-box;margin:0;padding:0}
-
-body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif;background:#08090b;color:#f5f5f5;min-height:100vh}
-
-.wrap{max-width:480px;margin:auto;padding:22px 18px 40px}
-
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
-
-.logo{font-size:25px;font-weight:800;letter-spacing:-1px}
-
-.logo span{color:#8d8d8d}
-
-.avatar{width:42px;height:42px;border-radius:50%;background:#191b20;border:1px solid #303238;display:flex;align-items:center;justify-content:center;font-weight:700}
-
-.hello{color:#8f9299;font-size:13px;margin-bottom:6px}
-
-h1{font-size:32px;line-height:1.05;letter-spacing:-1.5px;margin-bottom:24px}
-
-h1 span{color:#858990}
-
-.hero{background:linear-gradient(145deg,#17191e,#0e0f12);border:1px solid #292c32;border-radius:25px;padding:20px;position:relative;overflow:hidden;box-shadow:0 20px 60px #0008}
-
-.badge{display:inline-flex;padding:7px 11px;border-radius:20px;background:#202329;color:#d8d8da;font-size:11px;font-weight:600}
-
-.car{height:165px;display:flex;align-items:center;justify-content:center;margin:4px 0}
-
+*{box-sizing:border-box}body{margin:0;background:#070809;color:#f5f5f5;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif}
+main{max-width:480px;margin:auto;padding:22px 18px 45px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
+.logo{font-size:25px;font-weight:800;letter-spacing:-1px}.logo i{color:#777;font-style:normal}
+.avatar{width:42px;height:42px;border:1px solid #303238;border-radius:50%;display:grid;place-items:center;background:#15171a;font-weight:700}
+.eyebrow{font-size:12px;color:#777b82;letter-spacing:1px;margin-bottom:7px}
+h1{font-size:34px;line-height:1.03;letter-spacing:-1.7px;margin:0 0 24px}
+h1 span{color:#858991}
+.hero{padding:20px;border:1px solid #292c31;border-radius:25px;background:linear-gradient(145deg,#181a1f,#0d0e10);box-shadow:0 20px 60px #0008}
+.status{display:inline-block;background:#22252a;border-radius:20px;padding:7px 11px;font-size:11px;color:#d8d9dc}
+.car{height:155px;display:grid;place-items:center}
 .car svg{width:100%;max-width:330px}
+h2{font-size:22px;margin:0}.sub{color:#858991;font-size:13px;margin-top:6px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+.stat{background:#111317;border:1px solid #292c31;border-radius:15px;padding:13px 10px}.stat b{display:block;font-size:15px}.stat small{color:#777b82;font-size:10px}
+.buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}
+button{border:0;border-radius:14px;padding:15px;font-weight:700;font-size:13px}.light{background:#f2f2f2;color:#090909}.dark{background:#1b1d21;color:white;border:1px solid #303238}
+section{margin-top:27px}section>h3{font-size:17px;margin:0 0 11px}
+.card{border:1px solid #292c31;background:#111317;border-radius:19px;padding:4px 17px}
+.row{display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid #25272b;font-size:13px}.row:last-child{border:0}.row span{color:#81858c}
+.note{padding:17px;border:1px solid #292c31;border-radius:18px;background:#111317}.note b{font-size:13px}.note p{margin:7px 0 0;color:#858991;font-size:12px;line-height:1.5}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:9px}.box{padding:17px;border:1px solid #292c31;border-radius:18px;background:#111317}.box strong{font-size:13px}.box p{font-size:11px;color:#858991;line-height:1.5;margin-bottom:0}
+footer{text-align:center;color:#555960;font-size:10px;margin-top:32px}
+</style>
+</head>
+<body>
+<main>
+<header><div class="logo">NFC<i>AR</i></div><div class="avatar">B</div></header>
 
-.carname{font-size:23px;font-weight:750}
+<div class="eyebrow">NFCAR SAHİP PANELİ</div>
+<h1>Aracın.<br><span>Tek kimliği.</span></h1>
 
-.muted{color:#888b91;font-size:13px;margin-top:5px}
+<div class="hero">
+<div class="status">● AKTİF NFC + QR</div>
+<div class="car">
+<svg viewBox="0 0 420 180" fill="none">
+<path d="M58 124h304v20H58z" fill="#25282d"/>
+<path d="M98 124l30-51c5-8 13-13 23-13h108c10 0 19 5 24 13l31 51H98z" fill="#181a1e" stroke="#60646b" stroke-width="3"/>
+<path d="M139 74h139l19 36H118l21-36z" fill="#0e1013" stroke="#40444a" stroke-width="2"/>
+<path d="M188 74v36M235 74v36" stroke="#40444a" stroke-width="2"/>
+<circle cx="110" cy="145" r="22" fill="#08090b" stroke="#5d6168" stroke-width="4"/>
+<circle cx="310" cy="145" r="22" fill="#08090b" stroke="#5d6168" stroke-width="4"/>
+<circle cx="110" cy="145" r="7" fill="#777b82"/><circle cx="310" cy="145" r="7" fill="#777b82"/>
+</svg>
+</div>
+<h2>Golf 7 Comfortline</h2>
+<div class="sub">2013 • 1.6 TDI DSG • Siyah / Bej</div>
 
-.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:18px}
+<div class="stats">
+<div class="stat"><b>95.000</b><small>KM</small></div>
+<div class="stat"><b>2013</b><small>MODEL</small></div>
+<div class="stat"><b>AKTİF</b><small>NFCAR</small></div>
+</div>
 
-.stat{background:#111317;border:1px solid #292c
+<div class="buttons">
+<button class="light" onclick="alert('Araç profili açılacak')">Profili Gör</button>
+<button class="dark" onclick="alert('QR oluşturucu yakında')">QR Oluştur</button>
+</div>
+</div>
+
+<section>
+<h3>Araç bilgileri</h3>
+<div class="card">
+<div class="row"><span>Marka / Model</span><b>Volkswagen Golf 7</b></div>
+<div class="row"><span>Model yılı</span><b>2013</b></div>
+<div class="row"><span>Motor</span><b>1.6 TDI</b></div>
+<div class="row"><span>Şanzıman</span><b>DSG Otomatik</b></div>
+<div class="row"><span>Renk</span><b>Siyah</b></div>
+<div class="row"><span>İç mekan</span><b>Bej</b></div>
+</div>
+</section>
+
+<section>
+<h3>İletişim & Gizlilik</h3>
+<div class="note">
+<b>Telefon numaran herkese açık değil.</b>
+<p>Araç sahibi iletişim yöntemlerini kendi seçer. Ziyaretçi numaranı görmeden iletişim başlatabilir.</p>
+</div>
+</section>
+
+<section>
+<h3>NFCAR nasıl çalışır?</h3>
+<div class="two">
+<div class="box"><strong>◉ NFC</strong><p>Telefonunu aksesuarın ön yüzüne yaklaştır.</p></div>
+<div class="box"><strong>▦ QR</strong><p>NFC kullanılamazsa arka yüzündeki QR'ı okut.</p></div>
+</div>
+</section>
+
+<footer>NFCAR • Araçların dijital kimliği</footer>
+</main>
+</body>
+</html>
