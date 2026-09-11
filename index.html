@@ -3,398 +3,947 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NFCAR — Dijital Araç Kimliği</title>
+
+<title>NFCAR — Dijital Araç Kartı</title>
+
+<meta name="theme-color" content="#050505">
 
 <style>
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
 }
 
 body{
-  background:#080a0d;
-  color:#f5f5f5;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:#050505;
+    color:#fff;
+    overflow-x:hidden;
 }
 
-main{
-  width:100%;
-  max-width:480px;
-  margin:auto;
-  padding:18px;
+button,
+a{
+    -webkit-tap-highlight-color:transparent;
 }
 
-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:8px 0 24px;
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+/* BACKGROUND */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 20% 10%,rgba(255,255,255,.08),transparent 28%),
+        radial-gradient(circle at 90% 30%,rgba(255,255,255,.05),transparent 25%);
+    z-index:-1;
+}
+
+/* HEADER */
+
+.header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+    background:rgba(5,5,5,.78);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .logo{
-  font-size:25px;
-  font-weight:800;
-  letter-spacing:3px;
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:-1.5px;
 }
 
 .logo span{
-  color:#8b939d;
+    color:#aaa;
 }
 
-.avatar{
-  width:42px;
-  height:42px;
-  border:1px solid #343a42;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:18px;
+.menu-btn{
+    width:42px;
+    height:42px;
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:14px;
+    background:#111;
+    color:#fff;
+    font-size:21px;
 }
+
+/* HERO */
 
 .hero{
-  border:1px solid #292e35;
-  border-radius:24px;
-  background:linear-gradient(145deg,#15191e,#0d1014);
-  padding:22px;
-  box-shadow:0 15px 45px rgba(0,0,0,.35);
+    min-height:calc(100vh - 70px);
+    padding:70px 22px 45px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
 }
 
-.eyebrow{
-  color:#7e8791;
-  font-size:12px;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  margin-bottom:10px;
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:9px 14px;
+    border:1px solid rgba(255,255,255,.13);
+    background:rgba(255,255,255,.045);
+    border-radius:999px;
+    color:#cfcfcf;
+    font-size:12px;
+    margin-bottom:22px;
 }
 
-h1{
-  font-size:34px;
-  line-height:1.05;
-  letter-spacing:-1px;
-  margin-bottom:10px;
+.badge-dot{
+    width:7px;
+    height:7px;
+    background:#fff;
+    border-radius:50%;
+    box-shadow:0 0 12px #fff;
 }
 
-h1 span{
-  color:#89919b;
+.hero h1{
+    font-size:clamp(48px,15vw,86px);
+    line-height:.9;
+    letter-spacing:-5px;
+    font-weight:950;
+    max-width:850px;
 }
 
-.status{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  background:#171c21;
-  border:1px solid #30363e;
-  border-radius:30px;
-  padding:8px 12px;
-  color:#b9c0c7;
-  font-size:13px;
-  margin-bottom:20px;
+.hero h1 span{
+    color:#8f8f8f;
 }
 
-.dot{
-  width:7px;
-  height:7px;
-  background:#62d47a;
-  border-radius:50%;
+.hero p{
+    margin-top:24px;
+    max-width:520px;
+    color:#a7a7a7;
+    line-height:1.65;
+    font-size:16px;
 }
 
-.car{
-  height:175px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:5px 0 15px;
+.hero-buttons{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    max-width:390px;
+    gap:11px;
+    margin-top:30px;
 }
 
-.car svg{
-  width:100%;
-  max-width:330px;
+.btn{
+    min-height:55px;
+    border-radius:17px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:15px;
+    font-weight:750;
+    border:1px solid rgba(255,255,255,.12);
+    transition:.2s;
 }
 
-h2{
-  font-size:22px;
-  margin-bottom:4px;
+.btn:active{
+    transform:scale(.97);
 }
 
-.sub{
-  color:#858d96;
-  font-size:14px;
+.btn-primary{
+    background:#fff;
+    color:#050505;
 }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:22px;
+.btn-secondary{
+    background:#111;
+    color:#fff;
 }
 
-.stat{
-  background:#11151a;
-  border:1px solid #292e35;
-  border-radius:15px;
-  padding:13px 8px;
-  text-align:center;
+/* DEMO CARD */
+
+.section{
+    padding:80px 20px;
 }
 
-.stat strong{
-  display:block;
-  font-size:17px;
-}
-
-.stat small{
-  color:#737b84;
-  font-size:11px;
-}
-
-section{
-  margin-top:25px;
+.container{
+    width:100%;
+    max-width:1000px;
+    margin:auto;
 }
 
 .section-title{
-  color:#8b939d;
-  font-size:12px;
-  letter-spacing:1.5px;
-  margin-bottom:10px;
-  text-transform:uppercase;
+    text-align:center;
+    margin-bottom:35px;
 }
 
-.card{
-  border:1px solid #292e35;
-  background:#11151a;
-  border-radius:18px;
-  padding:17px;
+.section-title small{
+    color:#777;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:2px;
 }
 
-.row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:12px 0;
-  border-bottom:1px solid #242930;
+.section-title h2{
+    margin-top:10px;
+    font-size:34px;
+    letter-spacing:-1.5px;
 }
 
-.row:last-child{
-  border-bottom:0;
+.demo-wrap{
+    max-width:430px;
+    margin:auto;
 }
 
-.label{
-  color:#747d87;
-  font-size:13px;
+.digital-card{
+    position:relative;
+    overflow:hidden;
+    border-radius:30px;
+    background:
+        linear-gradient(145deg,#191919,#080808 60%);
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:
+        0 30px 90px rgba(0,0,0,.65),
+        inset 0 1px rgba(255,255,255,.08);
 }
 
-.value{
-  font-size:14px;
-  font-weight:600;
+.card-top{
+    padding:22px 22px 10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.buttons{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:15px;
+.card-brand{
+    font-size:20px;
+    font-weight:900;
 }
 
-button{
-  border:0;
-  border-radius:15px;
-  padding:15px 10px;
-  font-size:14px;
-  font-weight:700;
-  cursor:pointer;
+.card-status{
+    font-size:11px;
+    color:#aaa;
+    padding:7px 10px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:99px;
 }
 
-.primary{
-  background:#f1f3f5;
-  color:#080a0d;
+.vehicle-image{
+    height:205px;
+    margin:10px 15px;
+    border-radius:23px;
+    background:
+        radial-gradient(ellipse at center,rgba(255,255,255,.18),transparent 50%),
+        linear-gradient(145deg,#252525,#090909);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
 }
 
-.secondary{
-  background:#171c21;
-  color:#fff;
-  border:1px solid #30363e;
+.vehicle-image::before{
+    content:"";
+    position:absolute;
+    width:280px;
+    height:110px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.12);
+    transform:rotate(-8deg);
 }
 
-.note{
-  padding:17px;
-  border:1px solid #292e35;
-  border-radius:18px;
-  background:#11151a;
-  color:#8d959e;
-  font-size:13px;
-  line-height:1.6;
+.car-art{
+    position:relative;
+    width:265px;
+    height:95px;
 }
+
+.car-body{
+    position:absolute;
+    left:18px;
+    bottom:24px;
+    width:230px;
+    height:48px;
+    background:linear-gradient(#dadada,#777);
+    border-radius:30px 55px 18px 18px;
+    box-shadow:0 15px 25px rgba(0,0,0,.45);
+}
+
+.car-roof{
+    position:absolute;
+    left:65px;
+    top:9px;
+    width:115px;
+    height:48px;
+    background:linear-gradient(135deg,#aaa,#444);
+    border-radius:70px 80px 0 0;
+    transform:skew(-12deg);
+}
+
+.car-window{
+    position:absolute;
+    left:78px;
+    top:18px;
+    width:95px;
+    height:28px;
+    background:#111;
+    border-radius:25px 30px 5px 5px;
+    transform:skew(-12deg);
+}
+
+.wheel{
+    position:absolute;
+    bottom:5px;
+    width:42px;
+    height:42px;
+    background:#080808;
+    border:7px solid #303030;
+    border-radius:50%;
+}
+
+.wheel.one{
+    left:48px;
+}
+
+.wheel.two{
+    right:40px;
+}
+
+.card-info{
+    padding:18px 22px 23px;
+}
+
+.vehicle-type{
+    color:#777;
+    font-size:11px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+}
+
+.vehicle-name{
+    font-size:27px;
+    font-weight:850;
+    margin-top:4px;
+}
+
+.plate{
+    margin-top:10px;
+    display:inline-block;
+    background:#eee;
+    color:#111;
+    padding:7px 12px;
+    border-radius:7px;
+    font-weight:800;
+    letter-spacing:2px;
+    font-size:13px;
+}
+
+.card-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:18px;
+}
+
+.card-action{
+    height:49px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.1);
+    background:#111;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+    font-weight:700;
+}
+
+.card-action.primary{
+    background:#fff;
+    color:#000;
+}
+
+/* FEATURES */
+
+.features{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:13px;
+}
+
+.feature{
+    padding:24px;
+    background:#0d0d0d;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:23px;
+}
+
+.feature-icon{
+    width:44px;
+    height:44px;
+    border-radius:14px;
+    background:#181818;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    margin-bottom:18px;
+}
+
+.feature h3{
+    font-size:18px;
+    margin-bottom:8px;
+}
+
+.feature p{
+    color:#858585;
+    font-size:14px;
+    line-height:1.6;
+}
+
+/* HOW */
+
+.steps{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
+}
+
+.step{
+    display:flex;
+    gap:17px;
+    padding:22px;
+    background:#0b0b0b;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:22px;
+}
+
+.step-number{
+    min-width:42px;
+    height:42px;
+    border-radius:13px;
+    background:#fff;
+    color:#000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+}
+
+.step h3{
+    font-size:16px;
+    margin-bottom:5px;
+}
+
+.step p{
+    color:#777;
+    font-size:13px;
+    line-height:1.5;
+}
+
+/* CTA */
+
+.cta{
+    margin:20px auto 80px;
+    max-width:960px;
+    padding:55px 25px;
+    text-align:center;
+    border-radius:30px;
+    background:
+        radial-gradient(circle at 50% 0,rgba(255,255,255,.1),transparent 50%),
+        #0c0c0c;
+    border:1px solid rgba(255,255,255,.1);
+}
+
+.cta h2{
+    font-size:35px;
+    letter-spacing:-1.5px;
+}
+
+.cta p{
+    max-width:500px;
+    margin:15px auto 25px;
+    color:#858585;
+    line-height:1.6;
+}
+
+/* FOOTER */
 
 footer{
-  text-align:center;
-  color:#4f565f;
-  font-size:11px;
-  padding:35px 0 20px;
-  letter-spacing:1px;
+    border-top:1px solid rgba(255,255,255,.08);
+    padding:28px 20px;
+    text-align:center;
+    color:#555;
+    font-size:12px;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:none;
+    align-items:flex-end;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(8px);
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    background:#111;
+    border-radius:28px 28px 0 0;
+    border:1px solid rgba(255,255,255,.1);
+    padding:28px 22px 35px;
+    animation:up .25s ease;
+}
+
+@keyframes up{
+    from{
+        transform:translateY(100%);
+    }
+    to{
+        transform:translateY(0);
+    }
+}
+
+.modal-box h3{
+    font-size:24px;
+}
+
+.modal-box p{
+    color:#888;
+    margin-top:8px;
+    line-height:1.5;
+    font-size:14px;
+}
+
+.modal-close{
+    margin-top:22px;
+    width:100%;
+    height:52px;
+    border:0;
+    border-radius:15px;
+    background:#fff;
+    color:#000;
+    font-weight:800;
+}
+
+/* DESKTOP */
+
+@media(min-width:700px){
+
+    .header{
+        padding:0 40px;
+    }
+
+    .hero{
+        padding-left:30px;
+        padding-right:30px;
+    }
+
+    .hero-buttons{
+        flex-direction:row;
+        justify-content:center;
+    }
+
+    .btn{
+        padding:0 28px;
+    }
+
+    .features{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .steps{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .step{
+        flex-direction:column;
+    }
+
+    .step-number{
+        min-width:42px;
+    }
+
+    .modal{
+        align-items:center;
+        justify-content:center;
+    }
+
+    .modal-box{
+        width:400px;
+        border-radius:28px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<main>
+<header class="header">
+    <div class="logo">NF<span>CAR</span></div>
 
-<header>
-  <div class="logo">NFC<span>AR</span></div>
-  <div class="avatar">🚘</div>
+    <button class="menu-btn" onclick="openMenu()">
+        ☰
+    </button>
 </header>
 
-<div class="hero">
+<main>
 
-  <div class="eyebrow">Dijital Araç Kimliği</div>
+<section class="hero">
 
-  <h1>VOLKSWAGEN<br><span>GOLF</span></h1>
-
-  <div class="status">
-    <div class="dot"></div>
-    AKTİF NFCAR KİMLİĞİ
-  </div>
-
-  <div class="car">
-
-    <svg viewBox="0 0 420 190" fill="none" xmlns="http://www.w3.org/2000/svg">
-
-      <path d="M74 120L91 78C96 65 108 57 122 55L285 55C301 55 315 64 322 78L342 120"
-      stroke="#9aa2ab" stroke-width="5"/>
-
-      <path d="M55 120H365C374 120 381 127 381 136V146C381 153 375 159 368 159H52C45 159 39 153 39 146V136C39 127 46 120 55 120Z"
-      stroke="#f2f3f4" stroke-width="5"/>
-
-      <path d="M104 82L119 62H190V105H92L104 82Z"
-      fill="#1b2025" stroke="#737b84" stroke-width="3"/>
-
-      <path d="M199 62H285L306 105H199V62Z"
-      fill="#1b2025" stroke="#737b84" stroke-width="3"/>
-
-      <circle cx="101" cy="145" r="18"
-      fill="#080a0d" stroke="#9aa2ab" stroke-width="5"/>
-
-      <circle cx="319" cy="145" r="18"
-      fill="#080a0d" stroke="#9aa2ab" stroke-width="5"/>
-
-      <path d="M62 117H355" stroke="#f2f3f4" stroke-width="4"/>
-
-    </svg>
-
-  </div>
-
-  <h2>Golf 1.6 TDI</h2>
-  <div class="sub">Comfortline • DSG • BlueMotion</div>
-
-  <div class="stats">
-    <div class="stat">
-      <strong>2013</strong>
-      <small>MODEL</small>
+    <div class="badge">
+        <span class="badge-dot"></span>
+        Yeni nesil araç iletişim sistemi
     </div>
 
-    <div class="stat">
-      <strong>95.000</strong>
-      <small>KM</small>
+    <h1>
+        Aracın artık<br>
+        <span>konuşabiliyor.</span>
+    </h1>
+
+    <p>
+        NFCAR ile aracının üzerine yerleştirilen tek bir NFC etiketi
+        sayesinde insanlar sana hızlı, kolay ve modern şekilde ulaşabilir.
+    </p>
+
+    <div class="hero-buttons">
+        <a href="#demo" class="btn btn-primary">
+            Demo'yu İncele
+        </a>
+
+        <a href="#nasil" class="btn btn-secondary">
+            Nasıl Çalışır?
+        </a>
     </div>
 
-    <div class="stat">
-      <strong>1.6 TDI</strong>
-      <small>MOTOR</small>
+</section>
+
+
+<section class="section" id="demo">
+
+    <div class="container">
+
+        <div class="section-title">
+            <small>NFCAR EXPERIENCE</small>
+            <h2>Dijital araç kartın.</h2>
+        </div>
+
+        <div class="demo-wrap">
+
+            <div class="digital-card">
+
+                <div class="card-top">
+                    <div class="card-brand">NFCAR</div>
+
+                    <div class="card-status">
+                        ● AKTİF
+                    </div>
+                </div>
+
+
+                <div class="vehicle-image">
+
+                    <div class="car-art">
+
+                        <div class="car-roof"></div>
+
+                        <div class="car-window"></div>
+
+                        <div class="car-body"></div>
+
+                        <div class="wheel one"></div>
+                        <div class="wheel two"></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-info">
+
+                    <div class="vehicle-type">
+                        ARAÇ PROFİLİ
+                    </div>
+
+                    <div class="vehicle-name">
+                        Volkswagen Golf
+                    </div>
+
+                    <div class="plate">
+                        34 NFC 001
+                    </div>
+
+
+                    <div class="card-actions">
+
+                        <a class="card-action primary"
+                           href="tel:+905555555555">
+                            ☎ Ara
+                        </a>
+
+                        <button class="card-action"
+                                onclick="showMessage()">
+                            ✉ Mesaj Gönder
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
-  </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-title">
+            <small>NEDEN NFCAR?</small>
+            <h2>Basit. Akıllı. Modern.</h2>
+        </div>
+
+
+        <div class="features">
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    📲
+                </div>
+
+                <h3>Tek Dokunuş</h3>
+
+                <p>
+                    NFC destekli telefon etikete dokunduğunda
+                    araç sahibinin dijital profili açılır.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    🚗
+                </div>
+
+                <h3>Araç Profili</h3>
+
+                <p>
+                    İletişim bilgileri, araç bilgileri ve
+                    istediğin özel bilgiler tek bir yerde.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    🔒
+                </div>
+
+                <h3>Kontrol Sende</h3>
+
+                <p>
+                    Profilindeki bilgileri istediğin zaman
+                    güncelleyebilir veya değiştirebilirsin.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section" id="nasil">
+
+    <div class="container">
+
+        <div class="section-title">
+            <small>3 ADIMDA</small>
+            <h2>NFCAR nasıl çalışır?</h2>
+        </div>
+
+
+        <div class="steps">
+
+            <div class="step">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <div>
+                    <h3>Etiketi yerleştir</h3>
+
+                    <p>
+                        NFCAR etiketini aracının uygun bir
+                        noktasına yerleştir.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <div>
+                    <h3>Telefonu yaklaştır</h3>
+
+                    <p>
+                        NFC özellikli telefon etikete
+                        yaklaştırıldığında profil açılır.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    03
+                </div>
+
+                <div>
+                    <h3>İletişime geç</h3>
+
+                    <p>
+                        Karşıdaki kişi araç sahibiyle
+                        hızlıca iletişim kurabilir.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<div class="cta">
+
+    <h2>Aracını dijitale taşı.</h2>
+
+    <p>
+        NFCAR, araç sahipleri için fiziksel dünya ile
+        dijital dünya arasında yeni bir bağlantı kuruyor.
+    </p>
+
+    <button class="btn btn-primary"
+            onclick="showMessage()"
+            style="margin:auto;max-width:280px;width:100%;">
+        NFCAR'ı Keşfet
+    </button>
 
 </div>
 
-<section>
+</main>
 
-  <div class="section-title">Araç Bilgileri</div>
-
-  <div class="card">
-
-    <div class="row">
-      <div class="label">Marka / Model</div>
-      <div class="value">Volkswagen Golf 7</div>
-    </div>
-
-    <div class="row">
-      <div class="label">Motor</div>
-      <div class="value">1.6 TDI 105 PS</div>
-    </div>
-
-    <div class="row">
-      <div class="label">Şanzıman</div>
-      <div class="value">DSG Otomatik</div>
-    </div>
-
-    <div class="row">
-      <div class="label">Renk</div>
-      <div class="value">Siyah</div>
-    </div>
-
-  </div>
-
-</section>
-
-<section>
-
-  <div class="section-title">Hızlı İşlemler</div>
-
-  <div class="buttons">
-
-    <button class="primary" onclick="contactOwner()">
-      Sahibiyle İletişim
-    </button>
-
-    <button class="secondary" onclick="shareNFCAR()">
-      NFCAR'ı Paylaş
-    </button>
-
-  </div>
-
-</section>
-
-<section>
-
-  <div class="section-title">NFCAR Hakkında</div>
-
-  <div class="note">
-    Bu araç NFCAR dijital kimlik sistemi ile kayıtlıdır.
-    Araçla ilgili iletişim ve doğrulama işlemleri tek bir
-    dijital kimlik üzerinden gerçekleştirilebilir.
-  </div>
-
-</section>
 
 <footer>
-  NFCAR • ARAÇLARIN DİJİTAL KİMLİĞİ
+    © 2026 NFCAR — Digital Vehicle Identity
 </footer>
 
-</main>
+
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <h3>Demo bağlantısı</h3>
+
+        <p>
+            Burası NFCAR'ın iletişim ekranının demo versiyonudur.
+            Gerçek sistemde araç sahibine bildirim gönderilebilir.
+        </p>
+
+        <button class="modal-close"
+                onclick="closeMessage()">
+            Kapat
+        </button>
+
+    </div>
+
+</div>
+
 
 <script>
 
-function contactOwner(){
-  alert("İletişim özelliği demo aşamasındadır.");
+function showMessage(){
+
+    document
+        .getElementById("modal")
+        .classList
+        .add("active");
+
 }
 
-function shareNFCAR(){
 
-  if(navigator.share){
+function closeMessage(){
 
-    navigator.share({
-      title:"NFCAR — Dijital Araç Kimliği",
-      text:"Bu aracın NFCAR dijital kimliğine göz at.",
-      url:window.location.href
+    document
+        .getElementById("modal")
+        .classList
+        .remove("active");
+
+}
+
+
+function openMenu(){
+
+    document
+        .getElementById("nasil")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+
+document
+    .getElementById("modal")
+    .addEventListener("click",function(e){
+
+        if(e.target === this){
+            closeMessage();
+        }
+
     });
-
-  }else{
-
-    alert("Paylaşım özelliği bu cihazda desteklenmiyor.");
-
-  }
-
-}
 
 </script>
 
