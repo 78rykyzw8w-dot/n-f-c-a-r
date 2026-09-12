@@ -3297,5 +3297,447 @@ window.nfcarAddMaintenance = function(){
 
 })();
 </script>   
+    <!-- NFCAR PACKAGE UPGRADE -->
+<style>
+.nfcar-upgrade{
+    width:calc(100% - 36px);
+    max-width:460px;
+    margin:18px auto;
+    padding:18px;
+    border-radius:22px;
+    background:linear-gradient(145deg,#181818,#090909);
+    border:1px solid rgba(255,255,255,.11);
+}
+
+.nfcar-upgrade-head{
+    margin-bottom:14px;
+}
+
+.nfcar-upgrade-label{
+    color:#666;
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:2px;
+}
+
+.nfcar-upgrade-title{
+    margin-top:5px;
+    font-size:22px;
+    font-weight:950;
+}
+
+.nfcar-upgrade-desc{
+    margin-top:6px;
+    color:#777;
+    font-size:11px;
+    line-height:1.5;
+}
+
+.nfcar-upgrade-plans{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.nfcar-upgrade-plan{
+    padding:14px 8px;
+    border-radius:15px;
+    background:#101010;
+    border:1px solid rgba(255,255,255,.08);
+    text-align:center;
+}
+
+.nfcar-upgrade-plan.active{
+    background:#fff;
+    color:#050505;
+}
+
+.nfcar-upgrade-plan-name{
+    font-size:11px;
+    font-weight:950;
+}
+
+.nfcar-upgrade-plan-price{
+    margin-top:5px;
+    color:#777;
+    font-size:9px;
+}
+
+.nfcar-upgrade-plan.active
+.nfcar-upgrade-plan-price{
+    color:#555;
+}
+
+.nfcar-upgrade-features{
+    margin-top:14px;
+    display:grid;
+    gap:8px;
+}
+
+.nfcar-upgrade-feature{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#999;
+    font-size:11px;
+}
+
+.nfcar-upgrade-feature i{
+    width:19px;
+    height:19px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#171717;
+    color:#fff;
+    font-style:normal;
+    font-size:9px;
+}
+
+.nfcar-upgrade-current{
+    margin-top:14px;
+    padding:13px;
+    border-radius:15px;
+    background:#101010;
+    border:1px solid rgba(255,255,255,.07);
+}
+
+.nfcar-upgrade-current small{
+    display:block;
+    color:#666;
+    font-size:8px;
+    font-weight:800;
+    letter-spacing:1.5px;
+}
+
+.nfcar-upgrade-current strong{
+    display:block;
+    margin-top:4px;
+    font-size:15px;
+}
+
+.nfcar-upgrade-current span{
+    display:block;
+    margin-top:4px;
+    color:#777;
+    font-size:10px;
+}
+
+.nfcar-upgrade-admin{
+    margin-top:12px;
+    width:100%;
+    padding:12px;
+    border:0;
+    border-radius:13px;
+    background:#fff;
+    color:#050505;
+    font-size:11px;
+    font-weight:900;
+}
+
+.nfcar-upgrade-admin:active{
+    transform:scale(.98);
+}
+</style>
+
+<script>
+(function(){
+
+    const KEY = "NFCAR_PLAN";
+
+    const DATA = {
+
+        basic:{
+            name:"BASIC",
+            price:"Başlangıç",
+            desc:"Temel dijital araç kimliği.",
+            features:[
+                "Arama",
+                "WhatsApp",
+                "Dijital profil"
+            ]
+        },
+
+        premium:{
+            name:"PREMIUM",
+            price:"Profesyonel",
+            desc:"Gelişmiş araç iletişim sistemi.",
+            features:[
+                "Arama ve WhatsApp",
+                "Mesajlaşma",
+                "Bakım geçmişi",
+                "Bakım kayıtları"
+            ]
+        },
+
+        business:{
+            name:"BUSINESS",
+            price:"Profesyonel Plus",
+            desc:"İşletmeler için gelişmiş yönetim.",
+            features:[
+                "Premium özellikleri",
+                "Dijital belgeler",
+                "Gelişmiş araç yönetimi",
+                "İşletme kullanımı"
+            ]
+        }
+
+    };
+
+    function currentPlan(){
+
+        return localStorage.getItem(KEY) || "basic";
+
+    }
+
+    function create(){
+
+        if(
+            document.getElementById(
+                "nfcarUpgrade"
+            )
+        ) return;
+
+        const section =
+            document.createElement("section");
+
+        section.id = "nfcarUpgrade";
+        section.className = "nfcar-upgrade";
+
+        section.innerHTML = `
+
+            <div class="nfcar-upgrade-head">
+
+                <div class="nfcar-upgrade-label">
+                    NFCAR MEMBERSHIP
+                </div>
+
+                <div class="nfcar-upgrade-title">
+                    Paketini seç.
+                </div>
+
+                <div class="nfcar-upgrade-desc">
+                    Aracınız için hangi dijital
+                    özelliklerin aktif olacağını belirleyin.
+                </div>
+
+            </div>
+
+            <div class="nfcar-upgrade-plans">
+
+                ${Object.keys(DATA).map(key => `
+
+                    <div
+                        class="nfcar-upgrade-plan"
+                        data-upgrade-plan="${key}"
+                    >
+
+                        <div class="nfcar-upgrade-plan-name">
+                            ${DATA[key].name}
+                        </div>
+
+                        <div class="nfcar-upgrade-plan-price">
+                            ${DATA[key].price}
+                        </div>
+
+                    </div>
+
+                `).join("")}
+
+            </div>
+
+            <div class="nfcar-upgrade-features"
+                 id="nfcarUpgradeFeatures">
+            </div>
+
+            <div class="nfcar-upgrade-current">
+
+                <small>AKTİF PAKET</small>
+
+                <strong id="nfcarUpgradeName">
+                </strong>
+
+                <span id="nfcarUpgradeDesc">
+                </span>
+
+            </div>
+
+            <button
+                class="nfcar-upgrade-admin"
+                id="nfcarAdminButton"
+            >
+                NFCAR YÖNETİM PANELİ
+            </button>
+
+        `;
+
+        const profile =
+            document.querySelector(
+                ".profile-wrap"
+            );
+
+        if(profile){
+
+            profile.parentNode.insertBefore(
+                section,
+                profile.nextSibling
+            );
+
+        }else{
+
+            document.body.appendChild(section);
+
+        }
+
+        update();
+
+    }
+
+    function update(){
+
+        const key = currentPlan();
+        const plan = DATA[key];
+
+        document
+            .querySelectorAll(
+                "[data-upgrade-plan]"
+            )
+            .forEach(card => {
+
+                card.classList.toggle(
+                    "active",
+                    card.dataset.upgradePlan === key
+                );
+
+            });
+
+        const name =
+            document.getElementById(
+                "nfcarUpgradeName"
+            );
+
+        const desc =
+            document.getElementById(
+                "nfcarUpgradeDesc"
+            );
+
+        const features =
+            document.getElementById(
+                "nfcarUpgradeFeatures"
+            );
+
+        if(name)
+            name.textContent = plan.name;
+
+        if(desc)
+            desc.textContent = plan.desc;
+
+        if(features){
+
+            features.innerHTML =
+                plan.features.map(
+                    feature => `
+
+                        <div class="nfcar-upgrade-feature">
+
+                            <i>✓</i>
+
+                            <span>
+                                ${feature}
+                            </span>
+
+                        </div>
+
+                    `
+                ).join("");
+
+        }
+
+    }
+
+    function bind(){
+
+        document
+            .querySelectorAll(
+                "[data-upgrade-plan]"
+            )
+            .forEach(card => {
+
+                card.addEventListener(
+                    "click",
+                    function(){
+
+                        localStorage.setItem(
+                            KEY,
+                            this.dataset.upgradePlan
+                        );
+
+                        update();
+
+                        if(
+                            typeof window
+                                .updatePlanUI === "function"
+                        ){
+
+                            window.updatePlanUI();
+
+                        }
+
+                    }
+                );
+
+            });
+
+        const admin =
+            document.getElementById(
+                "nfcarAdminButton"
+            );
+
+        if(admin){
+
+            admin.onclick = function(){
+
+                alert(
+                    "NFCAR Yönetim Paneli\n\n" +
+                    "Müşteri yönetimi\n" +
+                    "Araç yönetimi\n" +
+                    "NFCAR ID\n" +
+                    "Bakım kayıtları\n" +
+                    "Dijital belgeler\n\n" +
+                    "Bu bölüm sonraki aşamada aktif edilecek."
+                );
+
+            };
+
+        }
+
+    }
+
+    function start(){
+
+        create();
+        bind();
+        update();
+
+    }
+
+    if(
+        document.readyState === "loading"
+    ){
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            start
+        );
+
+    }else{
+
+        start();
+
+    }
+
+})();
+</script>
 </body>
 </html>
