@@ -2490,5 +2490,365 @@ if (actions[1]) {
         "https://wa.me/90" + vehicle.phone.substring(1);
 }
 </script>
+<style>
+.nfcar-digital {
+  margin: 24px 0;
+  padding: 20px;
+  border-radius: 24px;
+  background: #101010;
+  border: 1px solid #2b2b2b;
+  color: #fff;
+  font-family: -apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
+}
+
+.nfcar-digital-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+
+.nfcar-digital-sub {
+  color: #999;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.nfcar-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 10px;
+}
+
+.nfcar-box {
+  background: #181818;
+  border: 1px solid #292929;
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.nfcar-label {
+  color: #888;
+  font-size: 11px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.nfcar-value {
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.nfcar-section {
+  margin-top: 22px;
+}
+
+.nfcar-section h3 {
+  font-size: 17px;
+  margin: 0 0 12px;
+}
+
+.nfcar-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #181818;
+  border-radius: 15px;
+  padding: 13px;
+  margin-bottom: 10px;
+}
+
+.nfcar-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #36d66b;
+}
+
+.nfcar-maintenance {
+  border: 1px solid #292929;
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 9px;
+  background: #151515;
+}
+
+.nfcar-maintenance-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.nfcar-maintenance-title {
+  font-weight: 700;
+}
+
+.nfcar-maintenance-date {
+  color: #888;
+  font-size: 12px;
+}
+
+.nfcar-maintenance-info {
+  color: #aaa;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.nfcar-btn {
+  width: 100%;
+  border: 0;
+  border-radius: 15px;
+  padding: 14px;
+  margin-top: 9px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  background: #fff;
+  color: #050505;
+}
+
+.nfcar-btn.secondary {
+  background: #1d1d1d;
+  color: #fff;
+  border: 1px solid #303030;
+}
+
+.nfcar-empty {
+  color: #777;
+  font-size: 13px;
+  padding: 10px 0;
+}
+
+@media(max-width:600px) {
+  .nfcar-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+</style>
+
+<div id="nfcarDigitalPanel" class="nfcar-digital">
+
+  <div class="nfcar-digital-title">
+    Dijital Araç Kimliği
+  </div>
+
+  <div class="nfcar-digital-sub">
+    NFCAR • Güvenli araç geçmişi
+  </div>
+
+  <div class="nfcar-status">
+    <span class="nfcar-dot"></span>
+    <strong>Aktif Araç Profili</strong>
+  </div>
+
+  <div class="nfcar-grid">
+
+    <div class="nfcar-box">
+      <div class="nfcar-label">Araç</div>
+      <div class="nfcar-value" id="nfcarVehicleName">-</div>
+    </div>
+
+    <div class="nfcar-box">
+      <div class="nfcar-label">Plaka</div>
+      <div class="nfcar-value" id="nfcarVehiclePlate">-</div>
+    </div>
+
+    <div class="nfcar-box">
+      <div class="nfcar-label">Model / Tip</div>
+      <div class="nfcar-value" id="nfcarVehicleSub">-</div>
+    </div>
+
+    <div class="nfcar-box">
+      <div class="nfcar-label">NFCAR ID</div>
+      <div class="nfcar-value" id="nfcarVehicleId">-</div>
+    </div>
+
+  </div>
+
+  <div class="nfcar-section">
+
+    <h3>🔧 Bakım Geçmişi</h3>
+
+    <div id="nfcarMaintenanceList"></div>
+
+    <button class="nfcar-btn secondary" onclick="nfcarAddMaintenance()">
+      + Bakım Kaydı Ekle
+    </button>
+
+  </div>
+
+  <div class="nfcar-section">
+
+    <h3>📄 Belgeler</h3>
+
+    <div class="nfcar-grid">
+
+      <div class="nfcar-box">
+        <div class="nfcar-label">Muayene</div>
+        <div class="nfcar-value">Kayıt eklenmedi</div>
+      </div>
+
+      <div class="nfcar-box">
+        <div class="nfcar-label">Sigorta</div>
+        <div class="nfcar-value">Kayıt eklenmedi</div>
+      </div>
+
+    </div>
+
+    <button class="nfcar-btn secondary" onclick="nfcarDocumentMessage()">
+      + Belge Ekle
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+(function(){
+
+  const nameEl = document.getElementById("nfcarVehicleName");
+  const plateEl = document.getElementById("nfcarVehiclePlate");
+  const subEl = document.getElementById("nfcarVehicleSub");
+  const idEl = document.getElementById("nfcarVehicleId");
+
+  /*
+   * Mevcut NFCAR sistemindeki vehicle değişkenini kullanıyoruz.
+   * Eğer mevcut sistemden geliyorsa direkt bilgileri doldurur.
+   */
+
+  if (typeof vehicle !== "undefined") {
+
+    nameEl.textContent = vehicle.name || "-";
+    plateEl.textContent = vehicle.plate || "-";
+    subEl.textContent = vehicle.sub || "-";
+
+  } else {
+
+    nameEl.textContent = "NFCAR Araç";
+    plateEl.textContent = "-";
+    subEl.textContent = "-";
+
+  }
+
+  const currentId =
+    new URLSearchParams(window.location.search).get("id")
+    || "NFCAR-001";
+
+  idEl.textContent = currentId;
+
+
+  function renderMaintenance(){
+
+    const container =
+      document.getElementById("nfcarMaintenanceList");
+
+    let records = [];
+
+    try {
+      records =
+        JSON.parse(
+          localStorage.getItem("nfcar_maintenance_" + currentId)
+        ) || [];
+    } catch(e) {}
+
+    if (!records.length) {
+
+      container.innerHTML =
+        '<div class="nfcar-empty">Henüz bakım kaydı bulunmuyor.</div>';
+
+      return;
+    }
+
+    container.innerHTML = records.map(function(item){
+
+      return `
+        <div class="nfcar-maintenance">
+
+          <div class="nfcar-maintenance-top">
+
+            <div class="nfcar-maintenance-title">
+              ${item.title}
+            </div>
+
+            <div class="nfcar-maintenance-date">
+              ${item.date}
+            </div>
+
+          </div>
+
+          <div class="nfcar-maintenance-info">
+            ${item.km ? item.km + " km" : ""}
+            ${item.service ? " • " + item.service : ""}
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+  }
+
+
+  window.nfcarAddMaintenance = function(){
+
+    const title =
+      prompt("Yapılan bakım / işlem:");
+
+    if(!title) return;
+
+    const km =
+      prompt("Kilometre:");
+
+    const service =
+      prompt("Servis / Usta:");
+
+    const record = {
+
+      title: title,
+
+      km: km || "",
+
+      service: service || "",
+
+      date: new Date().toLocaleDateString("tr-TR")
+
+    };
+
+    let records = [];
+
+    try {
+
+      records =
+        JSON.parse(
+          localStorage.getItem("nfcar_maintenance_" + currentId)
+        ) || [];
+
+    } catch(e) {}
+
+    records.unshift(record);
+
+    localStorage.setItem(
+      "nfcar_maintenance_" + currentId,
+      JSON.stringify(records)
+    );
+
+    renderMaintenance();
+
+  };
+
+
+  window.nfcarDocumentMessage = function(){
+
+    alert(
+      "Belge sistemi sonraki aşamada aktif edilecek."
+    );
+
+  };
+
+
+  renderMaintenance();
+
+})();
+</script>
 </body>
 </html>
