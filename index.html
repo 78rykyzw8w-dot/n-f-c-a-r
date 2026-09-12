@@ -2177,6 +2177,19 @@ textarea.field{
    MENU
 ========================================================= */
 const NFCAR_PLAN = "premium";
+function applyPlan() {
+    const premiumMessage = document.getElementById("premiumMessage");
+
+    if (!premiumMessage) return;
+
+    if (NFCAR_PLAN === "basic") {
+        premiumMessage.style.display = "none";
+    } else {
+        premiumMessage.style.display = "";
+    }
+}
+
+applyPlan();
 function openMenu(){
 
     document
