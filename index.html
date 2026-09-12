@@ -2891,5 +2891,411 @@ window.nfcarAddMaintenance = function(){
 
 })();
 </script>
+ <!-- NFCAR PACKAGE SYSTEM -->
+<style>
+.nfcar-plan-box{
+    margin:20px auto;
+    max-width:460px;
+    padding:18px;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:22px;
+    background:linear-gradient(145deg,#151515,#090909);
+    box-shadow:0 20px 50px rgba(0,0,0,.35);
+}
+
+.nfcar-plan-title{
+    font-size:11px;
+    letter-spacing:2px;
+    color:#777;
+    font-weight:800;
+    margin-bottom:8px;
+}
+
+.nfcar-plan-name{
+    font-size:22px;
+    font-weight:900;
+    margin-bottom:14px;
+}
+
+.nfcar-plans{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.nfcar-plan-btn{
+    padding:12px 6px;
+    border-radius:13px;
+    border:1px solid rgba(255,255,255,.1);
+    background:#101010;
+    color:#fff;
+    font-size:11px;
+    font-weight:800;
+}
+
+.nfcar-plan-btn.active{
+    background:#fff;
+    color:#050505;
+}
+
+.nfcar-locked{
+    opacity:.48 !important;
+    position:relative;
+}
+
+.nfcar-lock-message{
+    position:fixed;
+    left:18px;
+    right:18px;
+    bottom:20px;
+    z-index:99999;
+    padding:18px;
+    border-radius:20px;
+    background:#151515;
+    border:1px solid rgba(255,255,255,.16);
+    box-shadow:0 20px 60px rgba(0,0,0,.7);
+    text-align:center;
+    display:none;
+}
+
+.nfcar-lock-message strong{
+    display:block;
+    font-size:16px;
+    margin-bottom:6px;
+}
+
+.nfcar-lock-message span{
+    color:#999;
+    font-size:12px;
+}
+
+.nfcar-lock-message button{
+    margin-top:12px;
+    padding:11px 18px;
+    border:0;
+    border-radius:12px;
+    background:#fff;
+    color:#050505;
+    font-weight:800;
+}
+</style>
+
+<script>
+(function(){
+
+    const NFCAR_PLAN_KEY = "NFCAR_PLAN";
+
+    let currentPlan =
+        localStorage.getItem(NFCAR_PLAN_KEY) || "basic";
+
+    const planLevels = {
+        basic: 1,
+        premium: 2,
+        business: 3
+    };
+
+    const planNames = {
+        basic: "BASIC",
+        premium: "PREMIUM",
+        business: "BUSINESS"
+    };
+
+    function createPlanPanel(){
+
+        if(document.getElementById("nfcarPlanBox")) return;
+
+        const box = document.createElement("div");
+
+        box.id = "nfcarPlanBox";
+        box.className = "nfcar-plan-box";
+
+        box.innerHTML = `
+            <div class="nfcar-plan-title">
+                NFCAR PACKAGE
+            </div>
+
+            <div class="nfcar-plan-name">
+                ${planNames[currentPlan]}
+            </div>
+
+            <div class="nfcar-plans">
+
+                <button class="nfcar-plan-btn"
+                    data-plan="basic">
+                    BASIC
+                </button>
+
+                <button class="nfcar-plan-btn"
+                    data-plan="premium">
+                    PREMIUM
+                </button>
+
+                <button class="nfcar-plan-btn"
+                    data-plan="business">
+                    BUSINESS
+                </button>
+
+            </div>
+        `;
+
+        const profile =
+            document.querySelector(".profile-wrap") ||
+            document.querySelector(".preview-section") ||
+            document.body;
+
+        if(profile === document.body){
+
+            document.body.insertBefore(
+                box,
+                document.body.firstChild
+            );
+
+        }else{
+
+            profile.parentNode.insertBefore(
+                box,
+                profile
+            );
+
+        }
+
+        box.querySelectorAll(".nfcar-plan-btn")
+            .forEach(btn => {
+
+                btn.addEventListener("click",function(){
+
+                    currentPlan =
+                        this.dataset.plan;
+
+                    localStorage.setItem(
+                        NFCAR_PLAN_KEY,
+                        currentPlan
+                    );
+
+                    updatePlanUI();
+
+                });
+
+            });
+
+    }
+
+    function showLock(feature){
+
+        let message =
+            document.getElementById(
+                "nfcarLockMessage"
+            );
+
+        if(!message){
+
+            message =
+                document.createElement("div");
+
+            message.id =
+                "nfcarLockMessage";
+
+            message.className =
+                "nfcar-lock-message";
+
+            message.innerHTML = `
+                <strong>🔒 ${feature}</strong>
+
+                <span>
+                    Bu özellik mevcut paketinizde
+                    kullanılamıyor.
+                    PREMIUM veya BUSINESS pakete geçin.
+                </span>
+
+                <br>
+
+                <button onclick="
+                    document.getElementById('nfcarLockMessage').style.display='none'
+                ">
+                    Kapat
+                </button>
+            `;
+
+            document.body.appendChild(message);
+
+        }
+
+        message.style.display = "block";
+    }
+
+    function canUse(level){
+
+        return planLevels[currentPlan] >= level;
+
+    }
+
+    function applyFeatureLocks(){
+
+        const buttons =
+            document.querySelectorAll("button");
+
+        buttons.forEach(button => {
+
+            const text =
+                button.innerText
+                    .trim()
+                    .toLowerCase();
+
+            if(
+                text.includes("mesaj") ||
+                text.includes("message")
+            ){
+
+                if(!canUse(2)){
+
+                    button.classList.add(
+                        "nfcar-locked"
+                    );
+
+                    button.onclick =
+                        function(e){
+
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            showLock(
+                                "Mesajlaşma"
+                            );
+
+                        };
+
+                }
+
+            }
+
+            if(
+                text.includes("bakım") ||
+                text.includes("maintenance")
+            ){
+
+                if(!canUse(2)){
+
+                    button.classList.add(
+                        "nfcar-locked"
+                    );
+
+                    button.onclick =
+                        function(e){
+
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            showLock(
+                                "Bakım kayıtları"
+                            );
+
+                        };
+
+                }
+
+            }
+
+            if(
+                text.includes("belge") ||
+                text.includes("documents") ||
+                text.includes("doküman")
+            ){
+
+                if(!canUse(3)){
+
+                    button.classList.add(
+                        "nfcar-locked"
+                    );
+
+                    button.onclick =
+                        function(e){
+
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            showLock(
+                                "Dijital belgeler"
+                            );
+
+                        };
+
+                }
+
+            }
+
+        });
+
+    }
+
+    function updatePlanUI(){
+
+        const box =
+            document.getElementById(
+                "nfcarPlanBox"
+            );
+
+        if(!box) return;
+
+        const name =
+            box.querySelector(
+                ".nfcar-plan-name"
+            );
+
+        if(name){
+
+            name.textContent =
+                planNames[currentPlan];
+
+        }
+
+        box.querySelectorAll(
+            ".nfcar-plan-btn"
+        ).forEach(btn => {
+
+            btn.classList.toggle(
+                "active",
+                btn.dataset.plan === currentPlan
+            );
+
+        });
+
+        document
+            .querySelectorAll(".nfcar-locked")
+            .forEach(el => {
+
+                el.classList.remove(
+                    "nfcar-locked"
+                );
+
+            });
+
+        applyFeatureLocks();
+
+    }
+
+    function startNFCARPlans(){
+
+        createPlanPanel();
+        updatePlanUI();
+
+    }
+
+    if(
+        document.readyState === "loading"
+    ){
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            startNFCARPlans
+        );
+
+    }else{
+
+        startNFCARPlans();
+
+    }
+
+})();
+</script>   
 </body>
 </html>
