@@ -2869,26 +2869,7 @@ if (actions[1]) {
 
     };
 
-    let records = [];
-
-    try {
-
-      records =
-        JSON.parse(
-          localStorage.getItem("nfcar_maintenance_" + currentId)
-        ) || [];
-
-    } catch(e) {}
-
-    records.unshift(record);
-
-    localStorage.setItem(
-      "nfcar_maintenance_" + currentId,
-      JSON.stringify(records)
-    );
-
-    renderMaintenance();
-
+    
   };
 
 
