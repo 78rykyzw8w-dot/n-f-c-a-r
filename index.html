@@ -2791,26 +2791,62 @@ if (actions[1]) {
 
   window.nfcarAddMaintenance = function(){
 
-    const title =
-      prompt("Yapılan bakım / işlem:");
+  const title = prompt("🔧 Yapılan bakım / işlem:");
+  if(!title) return;
 
-    if(!title) return;
+  const km = prompt("🚗 Kilometre:");
+  if(!km) return;
 
-    const km =
-      prompt("Kilometre:");
+  const service = prompt("🏪 Servis / Usta:");
+  const amount = prompt("💰 İşlem tutarı (TL):");
+  const note = prompt("📝 Açıklama:");
 
-    const service =
-      prompt("Servis / Usta:");
+  const record = {
+    title: title,
+    km: km,
+    service: service || "",
+    amount: amount || "",
+    date: new Date().toLocaleDateString("tr-TR"),
+    note: note || ""
+  };
 
-    const record = {
+  let records = [];
 
-      title: title,
+  try {
+    records =
+      JSON.parse(
+        localStorage.getItem("nfcar_maintenance_" + currentId)
+      ) || [];
+  } catch(e) {
+    records = [];
+  }
 
-      km: km || "",
+  records.unshift(record);
 
-      service: service || "",
+  localStorage.setItem(
+    "nfcar_maintenance_" + currentId,
+    JSON.stringify(records)
+  );
 
-      date: new Date().toLocaleDateString("tr-TR")
+  renderMaintenance();
+};
+    
+      
+
+
+    
+     
+
+    
+    
+
+      
+
+     
+
+      
+
+      
 
     };
 
