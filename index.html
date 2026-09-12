@@ -2808,7 +2808,7 @@ if (actions[1]) {
   
 
 
-  window.nfcarAddMaintenance = function(){
+window.nfcarAddMaintenance = function(){
 
   const title = prompt("🔧 Yapılan bakım / işlem:");
   if(!title) return;
@@ -2816,7 +2816,7 @@ if (actions[1]) {
   const km = prompt("🚗 Kilometre:");
   if(!km) return;
 
-  const service = prompt("🏪 Servis / Usta:");
+  const service = prompt("🏢 Servis / Usta:");
   const amount = prompt("💰 İşlem tutarı (TL):");
   const note = prompt("📝 Açıklama:");
 
@@ -2848,7 +2848,12 @@ if (actions[1]) {
   );
 
   renderMaintenance();
+
 };
+
+  
+
+  
     
       
 
