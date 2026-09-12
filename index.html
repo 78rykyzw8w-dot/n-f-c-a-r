@@ -2216,6 +2216,9 @@ function closeMenu(){
 ========================================================= */
 
 function openMessage(){
+    if (NFCAR_PLAN === "basic") {
+    return;
+}
 
     document
         .getElementById("messageModal")
