@@ -2441,6 +2441,54 @@ window.addEventListener(
 );
 
 </script>
+<script>
+const vehicles = {
+    "NFCAR-001": {
+        name: "Volkswagen Golf",
+        sub: "2013 • Comfortline • 1.6 TDI",
+        plate: "34 NFC 001",
+        owner: "Batu",
+        phone: "05541404523"
+    },
 
+    "NFCAR-002": {
+        name: "Volkswagen Golf",
+        sub: "2015 • Highline • 1.6 TDI",
+        plate: "34 NFC 002",
+        owner: "Demo Müşteri",
+        phone: "05550000002"
+    },
+
+    "NFCAR-003": {
+        name: "Yamaha MT-07",
+        sub: "2024 • Motorcycle • 689cc",
+        plate: "34 NFC 003",
+        owner: "Demo Motosiklet",
+        phone: "05550000003"
+    }
+};
+
+const carId =
+    new URLSearchParams(window.location.search).get("car")
+    || "NFCAR-001";
+
+const vehicle = vehicles[carId] || vehicles["NFCAR-001"];
+
+document.querySelector(".vehicle-name").textContent = vehicle.name;
+document.querySelector(".vehicle-sub").textContent = vehicle.sub;
+document.querySelector(".plate").textContent = vehicle.plate;
+document.querySelector(".owner-text strong").textContent = vehicle.owner;
+
+const actions = document.querySelectorAll(".profile-action");
+
+if (actions[0]) {
+    actions[0].href = "tel:+90" + vehicle.phone.substring(1);
+}
+
+if (actions[1]) {
+    actions[1].href =
+        "https://wa.me/90" + vehicle.phone.substring(1);
+}
+</script>
 </body>
 </html>
