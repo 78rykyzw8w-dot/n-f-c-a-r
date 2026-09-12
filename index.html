@@ -3739,5 +3739,247 @@ window.nfcarAddMaintenance = function(){
 
 })();
 </script>
+    <!-- NFCAR ID PROFILE ROUTER -->
+<script>
+(function () {
+
+    const vehicles = {
+
+        "NFCAR-001": {
+            brand: "Volkswagen",
+            model: "Golf",
+            year: "2013",
+            detail: "Comfortline • 1.6 TDI",
+            plate: "34 NFC 001",
+            owner: "Batu",
+            plan: "BASIC"
+        },
+
+        "NFCAR-002": {
+            brand: "Volkswagen",
+            model: "Golf",
+            year: "2015",
+            detail: "Highline • 1.6 TDI",
+            plate: "34 NFC 002",
+            owner: "Demo Müşteri",
+            plan: "PREMIUM"
+        },
+
+        "NFCAR-003": {
+            brand: "Yamaha",
+            model: "MT-07",
+            year: "2024",
+            detail: "Motorcycle • 689cc",
+            plate: "34 NFC 003",
+            owner: "Demo Motosiklet",
+            plan: "BUSINESS"
+        },
+
+        "NFCAR-004": {
+            brand: "BMW",
+            model: "320i",
+            year: "2020",
+            detail: "Sedan",
+            plate: "34 NFC 004",
+            owner: "Test Müşteri",
+            plan: "PREMIUM"
+        }
+
+    };
+
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const nfcId =
+        params.get("id");
+
+
+    if (!nfcId) {
+        return;
+    }
+
+
+    const vehicle =
+        vehicles[nfcId];
+
+
+    if (!vehicle) {
+
+        document.body.innerHTML = `
+            <div style="
+                min-height:100vh;
+                background:#050505;
+                color:#fff;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                text-align:center;
+                padding:30px;
+                font-family:
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    sans-serif;
+            ">
+
+                <div>
+
+                    <div style="
+                        font-size:12px;
+                        color:#777;
+                        letter-spacing:2px;
+                        font-weight:800;
+                    ">
+                        NFCAR
+                    </div>
+
+                    <h1 style="
+                        margin-top:12px;
+                        font-size:30px;
+                    ">
+                        Araç bulunamadı
+                    </h1>
+
+                    <p style="
+                        margin-top:10px;
+                        color:#777;
+                        font-size:13px;
+                    ">
+                        ${nfcId} kayıtlı bir araç değil.
+                    </p>
+
+                </div>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    /*
+       Profildeki mevcut araç bilgilerini
+       NFCAR ID'ye göre güncelle.
+    */
+
+    const vehicleName =
+        document.querySelector(
+            ".vehicle-name"
+        );
+
+    const vehicleSub =
+        document.querySelector(
+            ".vehicle-sub"
+        );
+
+    const plate =
+        document.querySelector(
+            ".plate"
+        );
+
+    const owner =
+        document.querySelector(
+            ".owner-text strong"
+        );
+
+
+    if (vehicleName) {
+
+        vehicleName.textContent =
+            vehicle.brand +
+            " " +
+            vehicle.model;
+
+    }
+
+
+    if (vehicleSub) {
+
+        vehicleSub.textContent =
+            vehicle.year +
+            " • " +
+            vehicle.detail;
+
+    }
+
+
+    if (plate) {
+
+        plate.textContent =
+            vehicle.plate;
+
+    }
+
+
+    if (owner) {
+
+        owner.textContent =
+            vehicle.owner;
+
+    }
+
+
+    /*
+       NFCAR ID rozetini oluştur.
+    */
+
+    const card =
+        document.querySelector(
+            ".profile-card"
+        );
+
+
+    if (card) {
+
+        const badge =
+            document.createElement(
+                "div"
+            );
+
+
+        badge.textContent =
+            vehicle.plan +
+            " • " +
+            nfcId;
+
+
+        badge.style.cssText = `
+            position:absolute;
+            left:22px;
+            bottom:20px;
+            z-index:20;
+            padding:8px 11px;
+            border-radius:100px;
+            background:#fff;
+            color:#050505;
+            font-size:9px;
+            font-weight:900;
+            letter-spacing:.7px;
+        `;
+
+
+        card.appendChild(
+            badge
+        );
+
+    }
+
+
+    /*
+       Sayfa başlığını güncelle.
+    */
+
+    document.title =
+        "NFCAR — " +
+        vehicle.brand +
+        " " +
+        vehicle.model;
+
+
+})();
+</script>
 </body>
 </html>
