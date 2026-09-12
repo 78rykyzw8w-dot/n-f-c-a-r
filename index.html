@@ -2739,54 +2739,73 @@ if (actions[1]) {
 
   function renderMaintenance(){
 
-    const container =
-      document.getElementById("nfcarMaintenanceList");
+  const container =
+    document.getElementById("nfcarMaintenanceList");
 
-    let records = [];
+  let records = [];
 
-    try {
-      records =
-        JSON.parse(
-          localStorage.getItem("nfcar_maintenance_" + currentId)
-        ) || [];
-    } catch(e) {}
+  try {
+    records =
+      JSON.parse(
+        localStorage.getItem("nfcar_maintenance_" + currentId)
+      ) || [];
+  } catch(e) {}
 
-    if (!records.length) {
+  if (!records.length) {
 
-      container.innerHTML =
-        '<div class="nfcar-empty">Henüz bakım kaydı bulunmuyor.</div>';
+    container.innerHTML =
+      '<div class="nfcar-empty">Henüz bakım kaydı bulunmuyor.</div>';
 
-      return;
-    }
+    return;
+  }
 
-    container.innerHTML = records.map(function(item){
+  container.innerHTML = records.map(function(item){
 
-      return `
-        <div class="nfcar-maintenance">
+    return `
+      <div class="nfcar-maintenance">
 
-          <div class="nfcar-maintenance-top">
+        <div class="nfcar-maintenance-top">
 
-            <div class="nfcar-maintenance-title">
-              ${item.title}
-            </div>
-
-            <div class="nfcar-maintenance-date">
-              ${item.date}
-            </div>
-
+          <div class="nfcar-maintenance-title">
+            ${item.title}
           </div>
 
-          <div class="nfcar-maintenance-info">
-            ${item.km ? item.km + " km" : ""}
-            ${item.service ? " • " + item.service : ""}
+          <div class="nfcar-maintenance-date">
+            ${item.date}
           </div>
 
         </div>
-      `;
 
-    }).join("");
+        <div class="nfcar-maintenance-info">
+          ${item.km ? item.km + " km" : ""}
+          ${item.service ? " • " + item.service : ""}
+        </div>
 
-  }
+        ${item.amount ? `
+          <div class="nfcar-maintenance-info">
+            💰 ${item.amount} TL
+          </div>
+        ` : ""}
+
+        ${item.note ? `
+          <div class="nfcar-maintenance-info">
+            📝 ${item.note}
+          </div>
+        ` : ""}
+
+      </div>
+    `;
+
+  }).join("");
+
+}
+
+      
+
+
+
+    
+  
 
 
   window.nfcarAddMaintenance = function(){
