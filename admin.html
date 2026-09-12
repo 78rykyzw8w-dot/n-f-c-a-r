@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+    name="theme-color"
+    content="#050505"
+>
+
+<title>NFCAR — Yönetim</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#050505;
+    color:#f5f5f5;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "Segoe UI",
+        sans-serif;
+    min-height:100vh;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+/* HEADER */
+
+.header{
+    position:sticky;
+    top:0;
+    z-index:100;
+
+    height:72px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 20px;
+
+    background:rgba(5,5,5,.82);
+
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+
+    border-bottom:1px solid
+        rgba(255,255,255,.08);
+}
+
+.logo{
+    font-size:24px;
+    font-weight:950;
+    letter-spacing:-1.5px;
+}
+
+.logo span{
+    color:#666;
+}
+
+.header-badge{
+    padding:8px 11px;
+
+    border-radius:100px;
+
+    background:#101010;
+
+    border:1px solid
+        rgba(255,255,255,.1);
+
+    color:#aaa;
+
+    font-size:9px;
+    font-weight:800;
+
+    letter-spacing:1px;
+}
+
+/* MAIN */
+
+.container{
+    width:100%;
+    max-width:1100px;
+
+    margin:auto;
+
+    padding:35px 18px 70px;
+}
+
+.eyebrow{
+    color:#666;
+
+    font-size:10px;
+    font-weight:900;
+
+    letter-spacing:2.5px;
+}
+
+.page-title{
+    margin-top:7px;
+
+    font-size:
+        clamp(34px,8vw,58px);
+
+    font-weight:950;
+
+    letter-spacing:-3px;
+
+    line-height:1;
+}
+
+.page-subtitle{
+    margin-top:12px;
+
+    max-width:600px;
+
+    color:#777;
+
+    font-size:13px;
+
+    line-height:1.6;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:10px;
+
+    margin-top:30px;
+}
+
+.stat{
+    padding:18px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #171717,
+            #0a0a0a
+        );
+
+    border:1px solid
+        rgba(255,255,255,.09);
+}
+
+.stat-label{
+    color:#666;
+
+    font-size:9px;
+    font-weight:800;
+
+    letter-spacing:1.2px;
+}
+
+.stat-number{
+    margin-top:8px;
+
+    font-size:30px;
+
+    font-weight:950;
+
+    letter-spacing:-1px;
+}
+
+/* ACTIONS */
+
+.actions{
+    display:flex;
+
+    gap:10px;
+
+    margin-top:20px;
+}
+
+.primary{
+    flex:1;
+
+    min-height:52px;
+
+    border:0;
+
+    border-radius:16px;
+
+    background:#fff;
+
+    color:#050505;
+
+    font-size:12px;
+    font-weight:900;
+}
+
+.secondary{
+    min-height:52px;
+
+    padding:0 18px;
+
+    border-radius:16px;
+
+    border:1px solid
+        rgba(255,255,255,.12);
+
+    background:#111;
+
+    color:#fff;
+
+    font-size:12px;
+    font-weight:800;
+}
+
+/* SEARCH */
+
+.search-box{
+    margin-top:30px;
+
+    position:relative;
+}
+
+.search-box input{
+    width:100%;
+
+    height:54px;
+
+    padding:
+        0 18px;
+
+    border-radius:16px;
+
+    border:1px solid
+        rgba(255,255,255,.1);
+
+    outline:none;
+
+    background:#101010;
+
+    color:#fff;
+
+    font-size:13px;
+}
+
+.search-box input:focus{
+    border-color:
+        rgba(255,255,255,.3);
+}
+
+/* SECTION */
+
+.section{
+    margin-top:30px;
+}
+
+.section-head{
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    margin-bottom:13px;
+}
+
+.section-title{
+    font-size:17px;
+
+    font-weight:900;
+}
+
+.section-count{
+    color:#666;
+
+    font-size:10px;
+}
+
+/* VEHICLE LIST */
+
+.vehicle-list{
+    display:grid;
+
+    gap:10px;
+}
+
+.vehicle{
+    padding:18px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #161616,
+            #0b0b0b
+        );
+
+    border:1px solid
+        rgba(255,255,255,.09);
+}
+
+.vehicle-top{
+    display:flex;
+
+    align-items:flex-start;
+    justify-content:space-between;
+
+    gap:12px;
+}
+
+.vehicle-id{
+    color:#777;
+
+    font-size:9px;
+    font-weight:900;
+
+    letter-spacing:1.5px;
+}
+
+.vehicle-name{
+    margin-top:5px;
+
+    font-size:19px;
+
+    font-weight:950;
+
+    letter-spacing:-.6px;
+}
+
+.vehicle-meta{
+    margin-top:5px;
+
+    color:#777;
+
+    font-size:11px;
+}
+
+.plan{
+    padding:7px 9px;
+
+    border-radius:100px;
+
+    background:#101010;
+
+    border:1px solid
+        rgba(255,255,255,.08);
+
+    font-size:8px;
+
+    font-weight:900;
+
+    letter-spacing:.8px;
+}
+
+.vehicle-bottom{
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:8px;
+
+    margin-top:17px;
+
+    padding-top:14px;
+
+    border-top:1px solid
+        rgba(255,255,255,.07);
+}
+
+.owner{
+    color:#999;
+
+    font-size:10px;
+}
+
+.vehicle-actions{
+    display:flex;
+
+    gap:7px;
+}
+
+.small-btn{
+    padding:9px 11px;
+
+    border-radius:11px;
+
+    border:1px solid
+        rgba(255,255,255,.1);
+
+    background:#111;
+
+    color:#fff;
+
+    font-size:9px;
+
+    font-weight:800;
+}
+
+.small-btn.delete{
+    color:#999;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+
+    inset:0;
+
+    z-index:500;
+
+    display:none;
+
+    align-items:flex-end;
+
+    justify-content:center;
+
+    background:
+        rgba(0,0,0,.72);
+
+    backdrop-filter:blur(8px);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+
+    max-width:600px;
+
+    max-height:92vh;
+
+    overflow:auto;
+
+    padding:24px 20px 30px;
+
+    border-radius:
+        28px
+        28px
+        0
+        0;
+
+    background:#101010;
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+}
+
+.modal-head{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:22px;
+}
+
+.modal-title{
+    font-size:22px;
+
+    font-weight:950;
+}
+
+.close{
+    width:38px;
+    height:38px;
+
+    border-radius:12px;
+
+    border:1px solid
+        rgba(255,255,255,.1);
+
+    background:#181818;
+
+    color:#fff;
+
+    font-size:18px;
+}
+
+/* FORM */
+
+.form{
+    display:grid;
+
+    gap:13px;
+}
+
+.field{
+    display:grid;
+
+    gap:6px;
+}
+
+.field label{
+    color:#777;
+
+    font-size:9px;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+}
+
+.field input,
+.field select{
+    width:100%;
+
+    height:50px;
+
+    padding:0 14px;
+
+    border-radius:14px;
+
+    border:1px solid
+        rgba(255,255,255,.1);
+
+    outline:none;
+
+    background:#171717;
+
+    color:#fff;
+
+    font-size:12px;
+}
+
+.field input:focus,
+.field select:focus{
+    border-color:
+        rgba(255,255,255,.3);
+}
+
+.form-grid{
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:10px;
+}
+
+.save{
+    margin-top:7px;
+
+    width:100%;
+
+    height:54px;
+
+    border:0;
+
+    border-radius:15px;
+
+    background:#fff;
+
+    color:#050505;
+
+    font-size:12px;
+
+    font-weight:950;
+}
+
+/* EMPTY */
+
+.empty{
+    padding:35px 20px;
+
+    text-align:center;
+
+    border-radius:20px;
+
+    border:1px dashed
+        rgba(255,255,255,.1);
+
+    color:#666;
+
+    font-size:11px;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+
+    left:18px;
+    right:18px;
+    bottom:20px;
+
+    z-index:999;
+
+    display:none;
+
+    padding:15px 17px;
+
+    border-radius:16px;
+
+    background:#fff;
+
+    color:#050505;
+
+    text-align:center;
+
+    font-size:11px;
+
+    font-weight:900;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.5);
+}
+
+.toast.show{
+    display:block;
+}
+
+/* DESKTOP */
+
+@media(min-width:700px){
+
+    .container{
+        padding-left:30px;
+        padding-right:30px;
+    }
+
+    .stats{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+    .vehicle-list{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .modal{
+        align-items:center;
+    }
+
+    .modal-box{
+        border-radius:26px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <a
+        class="logo"
+        href="index.html"
+    >
+        NFC<span>AR</span>
+    </a>
+
+    <div class="header-badge">
+        YÖNETİM PANELİ
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <div class="eyebrow">
+        NFCAR PLATFORM
+    </div>
+
+    <h1 class="page-title">
+        Yönetim.
+    </h1>
+
+    <p class="page-subtitle">
+        Müşterilerini, araçlarını ve NFCAR
+        profillerini tek merkezden yönet.
+    </p>
+
+
+    <section class="stats">
+
+        <div class="stat">
+
+            <div class="stat-label">
+                TOPLAM ARAÇ
+            </div>
+
+            <div
+                class="stat-number"
+                id="totalVehicles"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                AKTİF NFC
+            </div>
+
+            <div
+                class="stat-number"
+                id="activeNfc"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                PREMIUM+
+            </div>
+
+            <div
+                class="stat-number"
+                id="premiumCount"
+            >
+                0
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div class="actions">
+
+        <button
+            class="primary"
+            onclick="openAddModal()"
+        >
+            + ARAÇ EKLE
+        </button>
+
+        <button
+            class="secondary"
+            onclick="resetDemo()"
+        >
+            DEMO
+        </button>
+
+    </div>
+
+
+    <div class="search-box">
+
+        <input
+            id="search"
+            type="search"
+            placeholder="Araç, müşteri veya NFCAR ID ara..."
+            oninput="renderVehicles()"
+        >
+
+    </div>
+
+
+    <section class="section">
+
+        <div class="section-head">
+
+            <div class="section-title">
+                Araçlar
+            </div>
+
+            <div
+                class="section-count"
+                id="vehicleCount"
+            >
+                0 araç
+            </div>
+
+        </div>
+
+
+        <div
+            class="vehicle-list"
+            id="vehicleList"
+        >
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ADD / EDIT MODAL -->
+
+<div
+    class="modal"
+    id="vehicleModal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <div
+                class="modal-title"
+                id="modalTitle"
+            >
+                Yeni Araç
+            </div>
+
+            <button
+                class="close"
+                onclick="closeModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form
+            class="form"
+            onsubmit="saveVehicle(event)"
+        >
+
+            <input
+                type="hidden"
+                id="editIndex"
+                value=""
+            >
+
+
+            <div class="field">
+
+                <label>
+                    MÜŞTERİ ADI
+                </label>
+
+                <input
+                    id="owner"
+                    required
+                    placeholder="Örn. Ahmet Yılmaz"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    TELEFON
+                </label>
+
+                <input
+                    id="phone"
+                    type="tel"
+                    placeholder="Örn. 05xx xxx xx xx"
+                >
+
+            </div>
+
+
+            <div class="form-grid">
+
+                <div class="field">
+
+                    <label>
+                        MARKA
+                    </label>
+
+                    <input
+                        id="brand"
+                        required
+                        placeholder="Volkswagen"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        MODEL
+                    </label>
+
+                    <input
+                        id="model"
+                        required
+                        placeholder="Golf"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-grid">
+
+                <div class="field">
+
+                    <label>
+                        MODEL YILI
+                    </label>
+
+                    <input
+                        id="year"
+                        type="number"
+                        min="1900"
+                        max="2100"
+                        required
+                        placeholder="2024"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        PLAKA
+                    </label>
+
+                    <input
+                        id="plate"
+                        required
+                        placeholder="34 NFC 004"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    NFCAR PAKETİ
+                </label>
+
+                <select id="plan">
+
+                    <option value="basic">
+                        BASIC
+                    </option>
+
+                    <option value="premium">
+                        PREMIUM
+                    </option>
+
+                    <option value="business">
+                        BUSINESS
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                class="save"
+                type="submit"
+            >
+                NFCAR PROFİLİNİ OLUŞTUR
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<div
+    class="toast"
+    id="toast"
+>
+</div>
+
+
+<script>
+
+/*
+    NFCAR ADMIN MVP
+
+    Bu sürüm demo amaçlıdır.
+    Veriler localStorage'da tutulur.
+*/
+
+const STORAGE_KEY =
+    "NFCAR_ADMIN_VEHICLES";
+
+
+const DEFAULT_VEHICLES = [
+
+    {
+        id:"NFCAR-001",
+        owner:"Batu",
+        phone:"05541404523",
+        brand:"Volkswagen",
+        model:"Golf",
+        year:"2013",
+        plate:"34 NFC 001",
+        plan:"basic",
+        active:true
+    },
+
+    {
+        id:"NFCAR-002",
+        owner:"Demo Müşteri",
+        phone:"05550000002",
+        brand:"Volkswagen",
+        model:"Golf",
+        year:"2015",
+        plate:"34 NFC 002",
+        plan:"premium",
+        active:true
+    },
+
+    {
+        id:"NFCAR-003",
+        owner:"Demo Motosiklet",
+        phone:"05550000003",
+        brand:"Yamaha",
+        model:"MT-07",
+        year:"2024",
+        plate:"34 NFC 003",
+        plan:"business",
+        active:true
+    }
+
+];
+
+
+function getVehicles(){
+
+    const saved =
+        localStorage.getItem(
+            STORAGE_KEY
+        );
+
+    if(saved){
+
+        try{
+
+            return JSON.parse(saved);
+
+        }catch(error){
+
+            console.log(error);
+
+        }
+
+    }
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(DEFAULT_VEHICLES)
+    );
+
+    return [...DEFAULT_VEHICLES];
+
+}
+
+
+function saveVehicles(data){
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(data)
+    );
+
+}
+
+
+function nextNfcarId(){
+
+    const vehicles =
+        getVehicles();
+
+    let highest = 0;
+
+    vehicles.forEach(vehicle => {
+
+        const match =
+            vehicle.id.match(
+                /NFCAR-(\d+)/
+            );
+
+        if(match){
+
+            highest =
+                Math.max(
+                    highest,
+                    parseInt(match[1])
+                );
+
+        }
+
+    });
+
+    return (
+        "NFCAR-" +
+        String(highest + 1)
+            .padStart(3,"0")
+    );
+
+}
+
+
+function renderStats(){
+
+    const vehicles =
+        getVehicles();
+
+    document.getElementById(
+        "totalVehicles"
+    ).textContent =
+        vehicles.length;
+
+
+    document.getElementById(
+        "activeNfc"
+    ).textContent =
+        vehicles.filter(
+            vehicle => vehicle.active
+        ).length;
+
+
+    document.getElementById(
+        "premiumCount"
+    ).textContent =
+        vehicles.filter(
+            vehicle =>
+                vehicle.plan === "premium" ||
+                vehicle.plan === "business"
+        ).length;
+
+}
+
+
+function renderVehicles(){
+
+    const vehicles =
+        getVehicles();
+
+    const search =
+        document
+            .getElementById("search")
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    const filtered =
+        vehicles.filter(vehicle => {
+
+            const text =
+                [
+                    vehicle.id,
+                    vehicle.owner,
+                    vehicle.brand,
+                    vehicle.model,
+                    vehicle.plate
+                ]
+                .join(" ")
+                .toLowerCase();
+
+            return text.includes(search);
+
+        });
+
+
+    document.getElementById(
+        "vehicleCount"
+    ).textContent =
+        filtered.length + " araç";
+
+
+    const list =
+        document.getElementById(
+            "vehicleList"
+        );
+
+
+    if(!filtered.length){
+
+        list.innerHTML = `
+
+            <div class="empty">
+
+                Araç bulunamadı.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        filtered.map(
+            vehicle => {
+
+                return `
+
+                    <article
+                        class="vehicle"
+                    >
+
+                        <div
+                            class="vehicle-top"
+                        >
+
+                            <div>
+
+                                <div
+                                    class="vehicle-id"
+                                >
+                                    ${escapeHtml(
+                                        vehicle.id
+                                    )}
+                                </div>
+
+                                <div
+                                    class="vehicle-name"
+                                >
+                                    ${escapeHtml(
+                                        vehicle.brand
+                                    )}
+                                    ${escapeHtml(
+                                        vehicle.model
+                                    )}
+                                </div>
+
+                                <div
+                                    class="vehicle-meta"
+                                >
+                                    ${escapeHtml(
+                                        vehicle.year
+                                    )}
+                                    •
+                                    ${escapeHtml(
+                                        vehicle.plate
+                                    )}
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                class="plan"
+                            >
+                                ${escapeHtml(
+                                    vehicle.plan
+                                        .toUpperCase()
+                                )}
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="vehicle-bottom"
+                        >
+
+                            <div
+                                class="owner"
+                            >
+                                👤
+                                ${escapeHtml(
+                                    vehicle.owner
+                                )}
+                            </div>
+
+
+                            <div
+                                class="vehicle-actions"
+                            >
+
+                                <button
+                                    class="small-btn"
+                                    onclick="editVehicle('${vehicle.id}')"
+                                >
+                                    DÜZENLE
+                                </button>
+
+                                <button
+                                    class="small-btn delete"
+                                    onclick="deleteVehicle('${vehicle.id}')"
+                                >
+                                    SİL
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+function openAddModal(){
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "Yeni Araç";
+
+
+    document.getElementById(
+        "editIndex"
+    ).value = "";
+
+
+    document.querySelector(
+        ".save"
+    ).textContent =
+        "NFCAR PROFİLİNİ OLUŞTUR";
+
+
+    clearForm();
+
+
+    document.getElementById(
+        "vehicleModal"
+    ).classList.add("show");
+
+}
+
+
+function editVehicle(id){
+
+    const vehicles =
+        getVehicles();
+
+    const index =
+        vehicles.findIndex(
+            vehicle =>
+                vehicle.id === id
+        );
+
+
+    if(index === -1)
+        return;
+
+
+    const vehicle =
+        vehicles[index];
+
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "Aracı Düzenle";
+
+
+    document.getElementById(
+        "editIndex"
+    ).value =
+        index;
+
+
+    document.getElementById(
+        "owner"
+    ).value =
+        vehicle.owner;
+
+
+    document.getElementById(
+        "phone"
+    ).value =
+        vehicle.phone || "";
+
+
+    document.getElementById(
+        "brand"
+    ).value =
+        vehicle.brand;
+
+
+    document.getElementById(
+        "model"
+    ).value =
+        vehicle.model;
+
+
+    document.getElementById(
+        "year"
+    ).value =
+        vehicle.year;
+
+
+    document.getElementById(
+        "plate"
+    ).value =
+        vehicle.plate;
+
+
+    document.getElementById(
+        "plan"
+    ).value =
+        vehicle.plan;
+
+
+    document.querySelector(
+        ".save"
+    ).textContent =
+        "DEĞİŞİKLİKLERİ KAYDET";
+
+
+    document.getElementById(
+        "vehicleModal"
+    ).classList.add("show");
+
+}
+
+
+function saveVehicle(event){
+
+    event.preventDefault();
+
+
+    const vehicles =
+        getVehicles();
+
+
+    const editIndex =
+        document.getElementById(
+            "editIndex"
+        ).value;
+
+
+    const data = {
+
+        owner:
+            document.getElementById(
+                "owner"
+            ).value.trim(),
+
+        phone:
+            document.getElementById(
+                "phone"
+            ).value.trim(),
+
+        brand:
+            document.getElementById(
+                "brand"
+            ).value.trim(),
+
+        model:
+            document.getElementById(
+                "model"
+            ).value.trim(),
+
+        year:
+            document.getElementById(
+                "year"
+            ).value.trim(),
+
+        plate:
+            document.getElementById(
+                "plate"
+            ).value.trim()
+            .toUpperCase(),
+
+        plan:
+            document.getElementById(
+                "plan"
+            ).value,
+
+        active:true
+
+    };
+
+
+    if(editIndex === ""){
+
+        data.id =
+            nextNfcarId();
+
+        vehicles.push(data);
+
+        showToast(
+            data.id +
+            " başarıyla oluşturuldu."
+        );
+
+    }else{
+
+        const index =
+            parseInt(editIndex);
+
+
+        data.id =
+            vehicles[index].id;
+
+
+        vehicles[index] =
+            data;
+
+
+        showToast(
+            "Araç bilgileri güncellendi."
+        );
+
+    }
+
+
+    saveVehicles(vehicles);
+
+    closeModal();
+
+    renderAll();
+
+}
+
+
+function deleteVehicle(id){
+
+    const vehicles =
+        getVehicles();
+
+
+    const vehicle =
+        vehicles.find(
+            item =>
+                item.id === id
+        );
+
+
+    if(!vehicle)
+        return;
+
+
+    const confirmed =
+        confirm(
+            vehicle.id +
+            " aracını silmek istediğine emin misin?"
+        );
+
+
+    if(!confirmed)
+        return;
+
+
+    const updated =
+        vehicles.filter(
+            item =>
+                item.id !== id
+        );
+
+
+    saveVehicles(updated);
+
+    showToast(
+        "Araç silindi."
+    );
+
+    renderAll();
+
+}
+
+
+function clearForm(){
+
+    document.getElementById(
+        "owner"
+    ).value = "";
+
+
+    document.getElementById(
+        "phone"
+    ).value = "";
+
+
+    document.getElementById(
+        "brand"
+    ).value = "";
+
+
+    document.getElementById(
+        "model"
+    ).value = "";
+
+
+    document.getElementById(
+        "year"
+    ).value = "";
+
+
+    document.getElementById(
+        "plate"
+    ).value = "";
+
+
+    document.getElementById(
+        "plan"
+    ).value =
+        "basic";
+
+}
+
+
+function closeModal(){
+
+    document.getElementById(
+        "vehicleModal"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+function resetDemo(){
+
+    const confirmed =
+        confirm(
+            "Demo araçlarını sıfırlamak istediğine emin misin?"
+        );
+
+
+    if(!confirmed)
+        return;
+
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(
+            DEFAULT_VEHICLES
+        )
+    );
+
+
+    renderAll();
+
+    showToast(
+        "Demo verileri geri yüklendi."
+    );
+
+}
+
+
+function showToast(message){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        () => {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },
+        2500
+    );
+
+}
+
+
+function escapeHtml(value){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+function renderAll(){
+
+    renderStats();
+
+    renderVehicles();
+
+}
+
+
+document
+    .getElementById(
+        "vehicleModal"
+    )
+    .addEventListener(
+        "click",
+        function(event){
+
+            if(
+                event.target === this
+            ){
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+
+renderAll();
+
+</script>
+
+</body>
+</html>
