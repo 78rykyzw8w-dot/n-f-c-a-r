@@ -3743,50 +3743,64 @@ window.nfcarAddMaintenance = function(){
 <script>
 (function () {
 
-    const vehicles = {
 
-        "NFCAR-001": {
-            brand: "Volkswagen",
-            model: "Golf",
-            year: "2013",
-            detail: "Comfortline • 1.6 TDI",
-            plate: "34 NFC 001",
-            owner: "Batu",
-            plan: "BASIC"
-        },
+const savedVehicles =
+    localStorage.getItem(
+        "NFCAR_ADMIN_VEHICLES"
+    );
 
-        "NFCAR-002": {
-            brand: "Volkswagen",
-            model: "Golf",
-            year: "2015",
-            detail: "Highline • 1.6 TDI",
-            plate: "34 NFC 002",
-            owner: "Demo Müşteri",
-            plan: "PREMIUM"
-        },
+let vehicles = {};
 
-        "NFCAR-003": {
-            brand: "Yamaha",
-            model: "MT-07",
-            year: "2024",
-            detail: "Motorcycle • 689cc",
-            plate: "34 NFC 003",
-            owner: "Demo Motosiklet",
-            plan: "BUSINESS"
-        },
+if (savedVehicles) {
 
-        "NFCAR-004": {
-            brand: "BMW",
-            model: "320i",
-            year: "2020",
-            detail: "Sedan",
-            plate: "34 NFC 004",
-            owner: "Test Müşteri",
-            plan: "PREMIUM"
-        }
+    try {
 
-    };
+        const adminVehicles =
+            JSON.parse(savedVehicles);
 
+        adminVehicles.forEach(vehicle => {
+
+            vehicles[vehicle.id] = {
+
+                brand: vehicle.brand,
+
+                model: vehicle.model,
+
+                year: vehicle.year,
+
+                detail:
+                    vehicle.detail ||
+                    "Dijital Araç Profili",
+
+                plate: vehicle.plate,
+
+                owner: vehicle.owner,
+
+                plan:
+                    vehicle.plan
+                        ? vehicle.plan.toUpperCase()
+                        : "BASIC",
+
+                phone:
+                    vehicle.phone || "",
+
+                active:
+                    vehicle.active !== false
+
+            };
+
+        });
+
+    } catch(error) {
+
+        console.error(
+            "NFCAR araç verileri okunamadı:",
+            error
+        );
+
+    }
+
+}
 
     const params =
         new URLSearchParams(
