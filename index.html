@@ -3995,6 +3995,96 @@ if (savedVehicles) {
 
 })();
 </script>
-<script src="supabase-live.js?v=2"></script>
+<script>
+(async function () {
+
+  const URL =
+    "https://vxzqicqytfwarvnjtae.supabase.co/rest/v1/vehicles";
+
+  const KEY =
+    "sb_publishable_nYtSXjPDIYiMWDIieLnC_g_r9LEqOqf";
+
+  const id =
+    new URLSearchParams(location.search).get("id");
+
+  const box = document.createElement("div");
+
+  box.style.cssText =
+    "position:fixed;top:10px;left:10px;right:10px;z-index:999999;background:#111;color:#00ff88;padding:15px;border-radius:12px;font:14px Arial";
+
+  box.textContent =
+    "NFCAR TEST BAŞLADI — ID: " + id;
+
+  document.body.appendChild(box);
+
+  if (!id) return;
+
+  try {
+
+    const response = await fetch(
+      URL +
+      "?id=eq." +
+      encodeURIComponent(id) +
+      "&active=eq.true&select=*",
+      {
+        headers: {
+          "apikey": KEY,
+          "Authorization": "Bearer " + KEY
+        }
+      }
+    );
+
+    const rows = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        "HTTP " +
+        response.status +
+        " — " +
+        JSON.stringify(rows)
+      );
+    }
+
+    if (!rows.length) {
+      box.textContent =
+        "SUPABASE BAĞLANDI AMA ARAÇ YOK — " + id;
+      return;
+    }
+
+    const car = rows[0];
+
+    document.querySelector(".vehicle-name").textContent =
+      car.brand + " " + car.model;
+
+    document.querySelector(".vehicle-sub").textContent =
+      car.year + " • Dijital Araç Profili";
+
+    const plate =
+      document.querySelector(".plate");
+
+    if (plate)
+      plate.textContent = car.plate || "";
+
+    const owner =
+      document.querySelector(".owner");
+
+    if (owner)
+      owner.textContent = car.owner || "";
+
+    box.textContent =
+      "🔥 SUPABASE ÇALIŞIYOR → " +
+      car.brand + " " +
+      car.model + " → " +
+      car.owner;
+
+  } catch (error) {
+
+    box.textContent =
+      "❌ HATA → " + error.message;
+
+  }
+
+})();
+</script>
 </body>
 </html>
