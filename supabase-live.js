@@ -6,137 +6,180 @@
   const SUPABASE_KEY =
     "sb_publishable_nYtSXjPDIYiMWDIieLnC_g_r9LEqOqf";
 
-  const script = document.createElement("script");
+  const params =
+    new URLSearchParams(window.location.search);
 
-  script.src =
-    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+  const nfcId =
+    params.get("id");
 
-  script.onload = async function () {
+  // TEST: Bu kutu görünüyorsa script kesin çalışıyor
+  const debug = document.createElement("div");
 
-    try {
+  debug.style.cssText = `
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    z-index: 99999;
+    background: #111;
+    color: #00ff88;
+    padding: 14px;
+    border-radius: 10px;
+    font-family: Arial;
+    font-size: 14px;
+  `;
 
-      const supabase =
-        window.supabase.createClient(
-          SUPABASE_URL,
-          SUPABASE_KEY
-        );
+  debug.textContent =
+    "NFCAR bağlantısı başlatılıyor... ID: " +
+    nfcId;
 
-      const params =
-        new URLSearchParams(
-          window.location.search
-        );
+  document.body.appendChild(debug);
 
-      const nfcId =
-        params.get("id");
 
-      if (!nfcId) return;
+  if (!nfcId) {
 
-      const result =
-        await supabase
-          .from("vehicles")
-          .select("*")
-          .eq("id", nfcId)
-          .eq("active", true)
-          .maybeSingle();
+    debug.textContent =
+      "NFCAR HATASI: ID bulunamadı.";
 
-      console.log("NFCAR SUPABASE RESULT:", result);
+    return;
+  }
 
-      if (result.error) {
 
-        alert(
-          "SUPABASE HATASI:\n\n" +
-          result.error.message
-        );
+  const apiUrl =
+    SUPABASE_URL +
+    "/rest/v1/vehicles" +
+    "?id=eq." +
+    encodeURIComponent(nfcId) +
+    "&active=eq.true" +
+    "&select=*";
 
-        return;
-      }
 
-      if (!result.data) {
+  fetch(apiUrl, {
 
-        alert(
-          "SUPABASE BAĞLANDI AMA ARAÇ GELMEDİ.\n\n" +
-          "Aranan ID: " +
-          nfcId
-        );
+    method: "GET",
 
-        return;
-      }
+    headers: {
+      "apikey": SUPABASE_KEY,
+      "Authorization":
+        "Bearer " + SUPABASE_KEY
+    }
 
-      const data = result.data;
+  })
 
-      const name =
-        document.querySelector(
-          ".vehicle-name"
-        );
+  .then(async function (response) {
 
-      const sub =
-        document.querySelector(
-          ".vehicle-sub"
-        );
+    const text =
+      await response.text();
 
-      const plate =
-        document.querySelector(
-          ".plate"
-        );
+    if (!response.ok) {
 
-      const owner =
-        document.querySelector(
-          ".owner"
-        );
-
-      if (name)
-        name.textContent =
-          data.brand +
-          " " +
-          data.model;
-
-      if (sub)
-        sub.textContent =
-          data.year +
-          " • Dijital Araç Profili";
-
-      if (plate)
-        plate.textContent =
-          data.plate || "";
-
-      if (owner)
-        owner.textContent =
-          data.owner || "";
-
-      document.title =
-        data.brand +
-        " " +
-        data.model +
-        " • NFCAR";
-
-      alert(
-        "🔥 SUPABASE BAĞLANTISI ÇALIŞIYOR!\n\n" +
-        data.brand +
-        " " +
-        data.model +
-        "\n" +
-        data.owner
-      );
-
-    } catch (error) {
-
-      alert(
-        "JAVASCRIPT HATASI:\n\n" +
-        error.message
+      throw new Error(
+        "HTTP " +
+        response.status +
+        ": " +
+        text
       );
 
     }
 
-  };
+    return JSON.parse(text);
 
-  script.onerror = function () {
+  })
 
-    alert(
-      "Supabase JavaScript kütüphanesi yüklenemedi."
+  .then(function (rows) {
+
+    console.log(
+      "NFCAR SUPABASE:",
+      rows
     );
 
-  };
 
-  document.head.appendChild(script);
+    if (!rows || rows.length === 0) {
+
+      debug.textContent =
+        "SUPABASE BAĞLANDI AMA ARAÇ BULUNAMADI. ID: " +
+        nfcId;
+
+      return;
+    }
+
+
+    const data =
+      rows[0];
+
+
+    const name =
+      document.querySelector(
+        ".vehicle-name"
+      );
+
+    const sub =
+      document.querySelector(
+        ".vehicle-sub"
+      );
+
+    const plate =
+      document.querySelector(
+        ".plate"
+      );
+
+    const owner =
+      document.querySelector(
+        ".owner"
+      );
+
+
+    if (name)
+      name.textContent =
+        data.brand +
+        " " +
+        data.model;
+
+
+    if (sub)
+      sub.textContent =
+        data.year +
+        " • Dijital Araç Profili";
+
+
+    if (plate)
+      plate.textContent =
+        data.plate || "";
+
+
+    if (owner)
+      owner.textContent =
+        data.owner || "";
+
+
+    document.title =
+      data.brand +
+      " " +
+      data.model +
+      " • NFCAR";
+
+
+    debug.textContent =
+      "🔥 SUPABASE ÇALIŞIYOR → " +
+      data.brand +
+      " " +
+      data.model +
+      " → " +
+      data.owner;
+
+  })
+
+  .catch(function (error) {
+
+    console.error(
+      "NFCAR SUPABASE HATASI:",
+      error
+    );
+
+    debug.textContent =
+      "❌ SUPABASE HATASI: " +
+      error.message;
+
+  });
 
 })();
