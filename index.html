@@ -4021,20 +4021,29 @@ if (savedVehicles) {
 
   try {
 
-    const response = await fetch(
+    
+        const response = await fetch(
       URL +
-      "?id=eq." +
+      "?apikey=" +
+      encodeURIComponent(KEY) +
+      "&id=eq." +
       encodeURIComponent(id) +
-      "&active=eq.true&select=*",
-      {
-    headers: {
-  "apikey": KEY
-}
-          
-          
-        }
-     
+      "&active=eq.true&select=*"
     );
+
+    const rows = await response.json();
+     
+     
+      
+      
+    
+  
+
+          
+          
+        
+     
+    
 
     const rows = await response.json();
 
