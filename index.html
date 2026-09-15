@@ -4032,7 +4032,8 @@ if (savedVehicles) {
     );
 
     const rows = await response.json();
-     
+     box.textContent =
+  "HTTP " + response.status + " → " + JSON.stringify(rows);
      
       
       
@@ -4045,7 +4046,7 @@ if (savedVehicles) {
      
     
 
-    const rows = await response.json();
+    
 
     if (!response.ok) {
       throw new Error(
