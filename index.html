@@ -4027,12 +4027,14 @@ if (savedVehicles) {
       encodeURIComponent(id) +
       "&active=eq.true&select=*",
       {
-        headers: {
-          "apikey": KEY,
-          "Authorization": "Bearer " + KEY
+    headers: {
+  "apikey": KEY
+}
+          
+          
         }
       }
-    );
+
 
     const rows = await response.json();
 
