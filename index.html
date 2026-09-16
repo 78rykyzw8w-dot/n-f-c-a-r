@@ -4023,13 +4023,20 @@ if (savedVehicles) {
 
     
         const response = await fetch(
-      URL +
-      "?apikey=" +
-      encodeURIComponent(KEY) +
-      "&id=eq." +
-      encodeURIComponent(id) +
-      "&active=eq.true&select=*"
-    );
+  URL +
+  "?id=eq." +
+  encodeURIComponent(id) +
+  "&active=eq.true&select=*",
+  {
+    headers: {
+      "apikey": KEY,
+      "Authorization": "Bearer " + KEY
+    }
+  }
+);
+      
+     
+      
 
     const rows = await response.json();
      box.textContent =
