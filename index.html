@@ -3821,59 +3821,8 @@ if (savedVehicles) {
         vehicles[nfcId];
 
 
-    if (!vehicle) {
-
-        document.body.innerHTML = `
-            <div style="
-                min-height:100vh;
-                background:#050505;
-                color:#fff;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                text-align:center;
-                padding:30px;
-                font-family:
-                    -apple-system,
-                    BlinkMacSystemFont,
-                    sans-serif;
-            ">
-
-                <div>
-
-                    <div style="
-                        font-size:12px;
-                        color:#777;
-                        letter-spacing:2px;
-                        font-weight:800;
-                    ">
-                        NFCAR
-                    </div>
-
-                    <h1 style="
-                        margin-top:12px;
-                        font-size:30px;
-                    ">
-                        Araç bulunamadı
-                    </h1>
-
-                    <p style="
-                        margin-top:10px;
-                        color:#777;
-                        font-size:13px;
-                    ">
-                        ${nfcId} kayıtlı bir araç değil.
-                    </p>
-
-                </div>
-
-            </div>
-        `;
-
-        return;
-    }
-
-
+    
+          
     /*
        Profildeki mevcut araç bilgilerini
        NFCAR ID'ye göre güncelle.
