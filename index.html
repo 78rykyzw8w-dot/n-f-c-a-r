@@ -4004,8 +4004,8 @@ if (savedVehicles) {
   const KEY =
     "sb_publishable_nYtSXjPDIYiMWDIieLnC_g_r9LEqOqf";
 
-  const id =
-    new URLSearchParams(location.search).get("id");
+  const id = new URLSearchParams(location.search).get("id") || "NFCAR-005";
+    
 
   const box = document.createElement("div");
 
