@@ -2739,62 +2739,7 @@ if (actions[1]) {
 
   function renderMaintenance(){
 
-  const container =
-    document.getElementById("nfcarMaintenanceList");
-
-  let records = [];
-
-  try {
-    records =
-      JSON.parse(
-        localStorage.getItem("nfcar_maintenance_" + currentId)
-      ) || [];
-  } catch(e) {}
-
-  if (!records.length) {
-
-    container.innerHTML =
-      '<div class="nfcar-empty">Henüz bakım kaydı bulunmuyor.</div>';
-
-    return;
-  }
-
-  container.innerHTML = records.map(function(item){
-
-    return `
-      <div class="nfcar-maintenance">
-
-        <div class="nfcar-maintenance-top">
-
-          <div class="nfcar-maintenance-title">
-            ${item.title}
-          </div>
-
-          <div class="nfcar-maintenance-date">
-            ${item.date}
-          </div>
-
-        </div>
-
-        <div class="nfcar-maintenance-info">
-          ${item.km ? item.km + " km" : ""}
-          ${item.service ? " • " + item.service : ""}
-        </div>
-
-        ${item.amount ? `
-          <div class="nfcar-maintenance-info">
-            💰 ${item.amount} TL
-          </div>
-        ` : ""}
-
-        ${item.note ? `
-          <div class="nfcar-maintenance-info">
-            📝 ${item.note}
-          </div>
-        ` : ""}
-
-      </div>
-    `;
+ 
 
   }).join("");
 
@@ -3739,320 +3684,124 @@ window.nfcarAddMaintenance = function(){
 
 })();
 </script>
-    <!-- NFCAR ID PROFILE ROUTER -->
-<script>
-(function () {
+    <script>
+(async function () {
 
+    const URL =
+        "https://vxzqicqytfwarvnjtae.supabase.co/rest/v1/vehicles";
 
-const savedVehicles =
-    localStorage.getItem(
-        "NFCAR_ADMIN_VEHICLES"
-    );
+    const KEY =
+        "sb_publishable_nYtSXjPDIYiMWDIieLnC_g_r9LEqOqf";
 
-let vehicles = {};
+    const id =
+        new URLSearchParams(
+            window.location.search
+        ).get("id");
 
-if (savedVehicles) {
+    if (!id) return;
 
     try {
 
-        const adminVehicles =
-            JSON.parse(savedVehicles);
-
-        adminVehicles.forEach(vehicle => {
-
-            vehicles[vehicle.id] = {
-
-                brand: vehicle.brand,
-
-                model: vehicle.model,
-
-                year: vehicle.year,
-
-                detail:
-                    vehicle.detail ||
-                    "Dijital Araç Profili",
-
-                plate: vehicle.plate,
-
-                owner: vehicle.owner,
-
-                plan:
-                    vehicle.plan
-                        ? vehicle.plan.toUpperCase()
-                        : "BASIC",
-
-                phone:
-                    vehicle.phone || "",
-
-                active:
-                    vehicle.active !== false
-
-            };
-
-        });
-
-    } catch(error) {
-
-        console.error(
-            "NFCAR araç verileri okunamadı:",
-            error
-        );
-
-    }
-
-}
-
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
-
-
-    const nfcId =
-        params.get("id");
-
-
-    if (!nfcId) {
-        return;
-    }
-
-
-    const vehicle =
-        vehicles[nfcId];
-
-
-    
-          
-    /*
-       Profildeki mevcut araç bilgilerini
-       NFCAR ID'ye göre güncelle.
-    */
-
-    const vehicleName =
-        document.querySelector(
-            ".vehicle-name"
-        );
-
-    const vehicleSub =
-        document.querySelector(
-            ".vehicle-sub"
-        );
-
-    const plate =
-        document.querySelector(
-            ".plate"
-        );
-
-    const owner =
-        document.querySelector(
-            ".owner-text strong"
-        );
-
-
-    if (vehicleName) {
-
-        vehicleName.textContent =
-            vehicle.brand +
-            " " +
-            vehicle.model;
-
-    }
-
-
-    if (vehicleSub) {
-
-        vehicleSub.textContent =
-            vehicle.year +
-            " • " +
-            vehicle.detail;
-
-    }
-
-
-    if (plate) {
-
-        plate.textContent =
-            vehicle.plate;
-
-    }
-
-
-    if (owner) {
-
-        owner.textContent =
-            vehicle.owner;
-
-    }
-
-
-    /*
-       NFCAR ID rozetini oluştur.
-    */
-
-    const card =
-        document.querySelector(
-            ".profile-card"
-        );
-
-
-    if (card) {
-
-        const badge =
-            document.createElement(
-                "div"
+        const response =
+            await fetch(
+                URL +
+                "?id=eq." +
+                encodeURIComponent(id) +
+                "&active=eq.true&select=*",
+                {
+                    method: "GET",
+                    cache: "no-store",
+                    headers: {
+                        "apikey": KEY,
+                        "Authorization":
+                            "Bearer " + KEY
+                    }
+                }
             );
 
+        const rows =
+            await response.json();
 
-        badge.textContent =
-            vehicle.plan +
-            " • " +
-            nfcId;
+        if (!response.ok) {
+            console.error(
+                "Supabase HTTP:",
+                response.status,
+                rows
+            );
+            return;
+        }
 
+        if (
+            !Array.isArray(rows) ||
+            rows.length === 0
+        ) {
+            console.error(
+                "NFCAR bulunamadı:",
+                id
+            );
+            return;
+        }
 
-        badge.style.cssText = `
-            position:absolute;
-            left:22px;
-            bottom:20px;
-            z-index:20;
-            padding:8px 11px;
-            border-radius:100px;
-            background:#fff;
-            color:#050505;
-            font-size:9px;
-            font-weight:900;
-            letter-spacing:.7px;
-        `;
+        const car = rows[0];
 
+        const vehicleName =
+            document.querySelector(
+                ".vehicle-name"
+            );
 
-        card.appendChild(
-            badge
+        const vehicleSub =
+            document.querySelector(
+                ".vehicle-sub"
+            );
+
+        const plate =
+            document.querySelector(
+                ".plate"
+            );
+
+        const owner =
+            document.querySelector(
+                ".owner-text strong"
+            );
+
+        if (vehicleName) {
+            vehicleName.textContent =
+                (car.brand || "") +
+                " " +
+                (car.model || "");
+        }
+
+        if (vehicleSub) {
+            vehicleSub.textContent =
+                (car.year || "") +
+                " • Dijital Araç Profili";
+        }
+
+        if (plate) {
+            plate.textContent =
+                car.plate || "";
+        }
+
+        if (owner) {
+            owner.textContent =
+                car.owner || "";
+        }
+
+        document.title =
+            "NFCAR — " +
+            (car.brand || "") +
+            " " +
+            (car.model || "");
+
+        console.log(
+            "🔥 NFCAR ÇALIŞIYOR:",
+            car
         );
 
-    }
+    } catch (error) {
 
+        console.error(
+            "NFCAR Supabase hat
 
-    /*
-       Sayfa başlığını güncelle.
-    */
-
-    document.title =
-        "NFCAR — " +
-        vehicle.brand +
-        " " +
-        vehicle.model;
-
-
-})();
-</script>
-<script>
-(async function () {
-
-  const URL =
-    "https://vxzqicqytfwarvnjtae.supabase.co/rest/v1/vehicles";
-
-  const KEY =
-    "sb_publishable_nYtSXjPDIYiMWDIieLnC_g_r9LEqOqf";
-
-  const id = new URLSearchParams(location.search).get("id") || "NFCAR-005";
-    
-
-  const box = document.createElement("div");
-
-  box.style.cssText =
-    "position:fixed;top:10px;left:10px;right:10px;z-index:999999;background:#111;color:#00ff88;padding:15px;border-radius:12px;font:14px Arial";
-
-  box.textContent =
-    "NFCAR TEST BAŞLADI — ID: " + id;
-
-  document.body.appendChild(box);
-
-  if (!id) return;
-
-  try {
-
-    
-        const response = await fetch(
-  URL +
-  "?id=eq." +
-  encodeURIComponent(id) +
-  "&active=eq.true&select=*",
-  {
-    headers: {
-      "apikey": KEY,
-      "Authorization": "Bearer " + KEY
-    }
-  }
-);
-      
-     
-      
-
-    const rows = await response.json();
-     box.textContent =
-  "HTTP " + response.status + " → " + JSON.stringify(rows);
-     
-      
-      
-    
-  
-
-          
-          
-        
-     
-    
-
-    
-
-    if (!response.ok) {
-      throw new Error(
-        "HTTP " +
-        response.status +
-        " — " +
-        JSON.stringify(rows)
-      );
-    }
-
-    if (!rows.length) {
-      box.textContent =
-        "SUPABASE BAĞLANDI AMA ARAÇ YOK — " + id;
-      return;
-    }
-
-    const car = rows[0];
-
-    document.querySelector(".vehicle-name").textContent =
-      car.brand + " " + car.model;
-
-    document.querySelector(".vehicle-sub").textContent =
-      car.year + " • Dijital Araç Profili";
-
-    const plate =
-      document.querySelector(".plate");
-
-    if (plate)
-      plate.textContent = car.plate || "";
-
-    const owner =
-      document.querySelector(".owner");
-
-    if (owner)
-      owner.textContent = car.owner || "";
-
-    box.textContent =
-      "🔥 SUPABASE ÇALIŞIYOR → " +
-      car.brand + " " +
-      car.model + " → " +
-      car.owner;
-
-  } catch (error) {
-
-    box.textContent =
-      "❌ HATA → " + error.message;
-
-  }
-
-})();
-</script>
 </body>
 </html>
